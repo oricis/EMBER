@@ -23,6 +23,9 @@ dependencies {
     compile group: 'com.1stleg', name: 'jnativehook', version: '2.1.0'
     //Beautiful JavaFX Material Design
     compile 'com.jfoenix:jfoenix:1.4.0'
+    //Font Awesome for JavaFX
+    compile group: 'de.jensd', name: 'fontawesomefx', version: '8.2'
+    //Junit
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
