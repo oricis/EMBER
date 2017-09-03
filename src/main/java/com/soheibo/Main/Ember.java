@@ -35,11 +35,12 @@ public class Ember extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/fxml/main.fxml"));
         Parent root = (Parent) fxmlLoader.load();
-        MainController listController = fxmlLoader.getController();
-        
+        MainController mainController
+                = (MainController) fxmlLoader.getController();
+
         DataModel model = new DataModel();
-        listController.initModel(model);
-        
+        mainController.initModel(model);
+
         stage.setTitle("Ember");
         stage.setScene(new Scene(root));
         stage.show();

@@ -13,20 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.soheibo.Model;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * The model is considered the heart of the project.
- * Contains lists, users 
- * 
+ *
  * @author Soheib El-Harrache
  */
-public class DataModel {
+public class TaskTest {
     
-    TaskListManager taskListManager;
-    
-    public DataModel() {
-        this.taskListManager = new TaskListManager();
-        //TODO:Verify existant data, else create default ones
+    public TaskTest() {
     }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+
+     @Test
+     public void hello() {
+     }
 }

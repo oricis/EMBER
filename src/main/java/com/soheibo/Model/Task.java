@@ -15,6 +15,9 @@
  */
 package com.soheibo.Model;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * Used to create tasks and modify them.
  * 
@@ -25,14 +28,60 @@ public class Task {
     private String title;
     private String description;
 
-    //private Date creationDate;
+    private Date creationDate;
     private boolean limited;
-    //private Date endDate;
+    private Date endDate;
 
     private boolean repetitive;
 
     private int numberTasks;
-//    private ArrayList<Tache> taskList;
-//    private ArrayList<Tache> requiredTasks;
+    private ArrayList<Task> taskList;
+    private ArrayList<Task> requiredTasks;
 
+    /**
+     * Create a new task with a title. By default,
+     * it`s not repetitive.
+     * @param title 
+     */
+    public Task(String title) {
+        this.title = title;
+        this.description = "";
+        
+        this.creationDate = new Date();
+        this.repetitive = false;
+        
+        this.taskList = new ArrayList();
+        this.requiredTasks = new ArrayList();
+    }
+
+    /**
+     * Creates a complete task with all paramaters.
+     * @param title
+     * @param description
+     * @param limited
+     * @param endDate
+     * @param repetitive
+     * @param numberTasks
+     * @param taskList
+     * @param requiredTasks 
+     */
+    public Task(String title, String description,
+            boolean limited, Date endDate, boolean repetitive, int numberTasks,
+            ArrayList<Task> taskList, ArrayList<Task> requiredTasks) {
+        this.title = title;
+        this.description = description;
+        this.creationDate = new Date();
+        this.limited = limited;
+        this.endDate = endDate;
+        this.repetitive = repetitive;
+        this.numberTasks = numberTasks;
+        this.taskList = taskList;
+        this.requiredTasks = requiredTasks;
+        
+    }
+    
+    
+    
+
+    
 }
