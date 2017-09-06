@@ -15,17 +15,146 @@
  */
 package com.soheibo.Controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.soheibo.Model.DataModel;
+import com.soheibo.Model.Task;
+import com.soheibo.Model.TaskList;
+import com.soheibo.Model.TaskListManager;
+import com.soheibo.View.NewTaskWindow;
+import com.soheibo.View.TaskListButton;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
  * @author Soheib El-Harrache
  */
-public class MainController {
+public class MainController implements Initializable {
+
+    private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
+    private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
+    private double lastLayoutYLists = 0;
+
+    //GUI
+    @FXML
+    private AnchorPane taskListsAnchorPane;
+    @FXML
+    private AnchorPane rightContentAnchorPane;
+    @FXML
+    private Label titleTaskListContent;
+    @FXML
+    private JFXButton addButton;
+    @FXML
+    private JFXListView listView;
 
     private DataModel model;
+    //Currently selected taskList
+    private TaskListManager tlm;
+    private TaskList currentTaskList;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //Blank for now
+    }
 
     public void initModel(DataModel model) {
         this.model = model;
+        this.tlm = model.getTaskListManager();
+
+        addTaskViews();
+        addListeners();
+        currentTaskList = tlm.getTaskListFromName("Collect");
+        updateContentPanel();
+    }
+
+    private void addTaskViews() {
+        addTaskList("Collect");
+        addSeparator();
+        addTaskList("Today");
+        addTaskList("Upcoming");
+        addTaskList("Anytime");
+        addTaskList("Future");
+        addSeparator();
+        addTaskList("Exemple");
+    }
+
+    private void addListeners() {
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    addNewTask();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    private void addNewTask() throws IOException {
+        NewTaskWindow ntWindow = new NewTaskWindow();
+        ntWindow.showAndWait();
+        String taskTitle = ntWindow.getTaskTitle();
+        if (taskTitle == null || taskTitle.equals("")) {
+            //Rejected
+        } else {
+            //Added
+            Task t = new Task(tlm.getNewID(), taskTitle);
+            listView.getItems().add(t);
+            currentTaskList.addTask(t);
+        }
+    }
+
+    private void addTaskList(String name) {
+        //Logic
+        TaskList newTaskList = new TaskList(tlm.getNewID(), name);
+        tlm.addTaskList(newTaskList);
+        //Graphic
+        TaskListButton newBtn = new TaskListButton(newTaskList);
+        newBtn.setLayoutX(14.0);
+        newBtn.setLayoutY(lastLayoutYLists + DISTANCE_BETWEEN_LISTS_BTNS);
+        taskListsAnchorPane.getChildren().add(newBtn);
+
+        lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
+        
+        newBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentTaskList = newTaskList;
+                updateContentPanel();
+            }
+        });
+    }
+
+    private void addSeparator() {
+        Separator separator = new Separator();
+        AnchorPane.setLeftAnchor(separator, 17.0);
+        AnchorPane.setRightAnchor(separator, 17.0);
+        separator.setLayoutY(lastLayoutYLists + DISTANCE_BETWEEN_SEPARATOR);
+        separator.setPrefWidth(200.0);
+        taskListsAnchorPane.getChildren().add(separator);
+        lastLayoutYLists += 15;
+    }
+
+    private void updateContentPanel() {
+        titleTaskListContent.setText(currentTaskList.getName());
+        ArrayList<Task> alTasks = currentTaskList.getTskList();
+        listView.getItems().clear();
+        for (Task t : alTasks) {
+            listView.getItems().add(t);
+        }
     }
 }

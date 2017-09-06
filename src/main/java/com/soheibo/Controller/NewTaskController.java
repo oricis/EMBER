@@ -13,43 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.soheibo.Controller;
 
-import com.soheibo.Model.TaskList;
-import com.soheibo.Model.TaskListManager;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import com.jfoenix.controls.JFXTextField;
+import javafx.fxml.FXML;
 
 /**
  *
  * @author Soheib El-Harrache
  */
-public class TaskTest {
+public class NewTaskController {
+    @FXML
+    JFXTextField nameFieldNewTask;
     
-    public TaskTest() {
+    public String getTaskTitle() {
+        return nameFieldNewTask.getText();
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-
-     @Test
-     public void addingTaskToList() {
-     }
 }

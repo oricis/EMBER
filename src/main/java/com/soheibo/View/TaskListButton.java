@@ -13,30 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.soheibo.Model;
+package com.soheibo.View;
+
+import com.jfoenix.controls.JFXButton;
+import com.soheibo.Model.TaskList;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 
 /**
- * The model is considered the heart of the project.
- * Contains lists, users 
- * 
+ *
  * @author Soheib El-Harrache
  */
-public class DataModel {
+public class TaskListButton extends JFXButton {
     
-    TaskListManager taskListManager;
-    //Need to include config files
+    private TaskList taskList;
     
-    public DataModel() {
-        this.taskListManager = new TaskListManager();
-        //TODO:Verify existant data, else create default ones
+    public TaskListButton(TaskList taskList) {
+        this.setText(taskList.getName());
+        AnchorPane.setLeftAnchor(this, 17.0);
+        AnchorPane.setRightAnchor(this, 17.0);
+        this.setFont(new Font("Arial Bold", 12.0));
     }
 
     //----------------GETTERS AND SETTERS--------------------------------------
-    public TaskListManager getTaskListManager() {
-        return taskListManager;
+    public TaskList getTaskList() {
+        return taskList;
     }
 
-    public void setTaskListManager(TaskListManager taskListManager) {
-        this.taskListManager = taskListManager;
-    }     
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
+    }  
+    
 }

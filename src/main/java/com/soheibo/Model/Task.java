@@ -25,6 +25,7 @@ import java.util.Date;
  */
 public class Task {
     
+    private int ID;
     private String title;
     private String description;
 
@@ -40,10 +41,12 @@ public class Task {
 
     /**
      * Create a new task with a title. By default,
-     * it`s not repetitive.
+     * it's not repetitive.
+     * @param ID
      * @param title 
      */
-    public Task(String title) {
+    public Task(int ID, String title) {
+        this.ID = ID;
         this.title = title;
         this.description = "";
         
@@ -56,6 +59,7 @@ public class Task {
 
     /**
      * Creates a complete task with all paramaters.
+     * @param ID
      * @param title
      * @param description
      * @param limited
@@ -65,9 +69,10 @@ public class Task {
      * @param taskList
      * @param requiredTasks 
      */
-    public Task(String title, String description,
+    public Task(int ID, String title, String description,
             boolean limited, Date endDate, boolean repetitive, int numberTasks,
             ArrayList<Task> taskList, ArrayList<Task> requiredTasks) {
+        this.ID = ID;
         this.title = title;
         this.description = description;
         this.creationDate = new Date();
@@ -79,9 +84,92 @@ public class Task {
         this.requiredTasks = requiredTasks;
         
     }
-    
-    
-    
 
+    //----------------GETTERS AND SETTERS--------------------------------------
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public boolean isLimited() {
+        return limited;
+    }
+
+    public void setLimited(boolean limited) {
+        this.limited = limited;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isRepetitive() {
+        return repetitive;
+    }
+
+    public void setRepetitive(boolean repetitive) {
+        this.repetitive = repetitive;
+    }
+
+    public int getNumberTasks() {
+        return numberTasks;
+    }
+
+    public void setNumberTasks(int numberTasks) {
+        this.numberTasks = numberTasks;
+    }
+
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
+    }
+
+    public ArrayList<Task> getRequiredTasks() {
+        return requiredTasks;
+    }
+
+    public void setRequiredTasks(ArrayList<Task> requiredTasks) {
+        this.requiredTasks = requiredTasks;
+    }
+
+    // For now, it'll be used to return the title.
+    @Override
+    public String toString() {
+        return title;
+    }
     
 }

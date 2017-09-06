@@ -23,14 +23,20 @@ import java.util.ArrayList;
  */
 public class TaskListManager {
     
-    ArrayList<TaskList> mainTaskList;
+    //Used to give unique IDs
+    private int lastID;
+    private ArrayList<TaskList> mainTaskLists;
+    private TaskList collectTaskList;
 
     /**
-     * Default TaskListManager has a Collect, a Today,
+     * Default TaskListManager has normally a Collect, a Today,
      * an Upcoming, a Anytime and a Future list.
      */
     public TaskListManager() {
-        this.mainTaskList = new ArrayList();
+        this.lastID = 0;
+        this.mainTaskLists = new ArrayList();
+        this.collectTaskList = new TaskList(this.getNewID(), "Collect");
+        this.mainTaskLists.add(collectTaskList);
     }
     
     /**
@@ -41,7 +47,7 @@ public class TaskListManager {
      * @return True if the name is used.
      */
     public boolean listNameUsed (String name) {
-        for (TaskList tskList : mainTaskList) {
+        for (TaskList tskList : mainTaskLists) {
             if (tskList.getName().equals(name)) {
                 return true;
             }
@@ -54,7 +60,7 @@ public class TaskListManager {
      * @param tskList 
      */
     public void addTaskList(TaskList tskList) {
-        mainTaskList.add(tskList);
+        mainTaskLists.add(tskList);
     }
     
     /**
@@ -62,12 +68,35 @@ public class TaskListManager {
      * @param name The name of the taskList to remove.
      */
     public void removeTaskList(String name) {
-        for (TaskList tskList : mainTaskList) {
+        for (TaskList tskList : mainTaskLists) {
             if (tskList.getName().equals(name)) {
-                mainTaskList.remove(tskList);
+                mainTaskLists.remove(tskList);
             }
         }       
     }
     
+    /**
+     * Returns a new ID, being incrementally given.
+     * @return 
+     */
+    public int getNewID() {
+        lastID++;
+        return lastID;
+    }
+    
+    /**
+     * Returns a taskList with a certain name. Returns null
+     * if not found.
+     * @param name
+     * @return 
+     */
+    public TaskList getTaskListFromName(String name) {
+        for (TaskList tskList : mainTaskLists) {
+            if (tskList.getName().equals(name)) {
+                return tskList;
+            }
+        }
+        return null;
+    }
     
 }

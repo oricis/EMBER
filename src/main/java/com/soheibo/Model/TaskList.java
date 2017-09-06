@@ -22,19 +22,28 @@ import java.util.ArrayList;
  * @author Soheib El-Harrache
  */
 public class TaskList {
+    private int ID;
     private String name;
     private ArrayList<Task> tskList;
 
     /**
      * Creates a default list of tasks.
+     * @param ID
      * @param name 
      */
-    public TaskList(String name) {
+    public TaskList(int ID, String name) {
+        this.ID = ID;
         this.name = name;
         this.tskList = new ArrayList();
     }
-
     
+    /**
+     * Adds a task to the taskList.
+     * @param t 
+     */
+    public void addTask(Task t) {
+        tskList.add(t);
+    }
     
     //----------------GETTERS AND SETTERS--------------------------------------
     public String getName() {
@@ -52,6 +61,12 @@ public class TaskList {
     public void setTskList(ArrayList<Task> taskList) {
         this.tskList = taskList;
     }
-    
-    
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }   
 }
