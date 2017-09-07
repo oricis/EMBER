@@ -35,8 +35,6 @@ public class TaskListManager {
     public TaskListManager() {
         this.lastID = 0;
         this.mainTaskLists = new ArrayList();
-        this.collectTaskList = new TaskList(this.getNewID(), "Collect");
-        this.mainTaskLists.add(collectTaskList);
     }
     
     /**

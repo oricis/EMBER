@@ -17,10 +17,12 @@ package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPopup;
 import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
 import com.soheibo.Model.TaskList;
 import com.soheibo.Model.TaskListManager;
+import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
 import com.soheibo.View.TaskListButton;
 import java.io.IOException;
@@ -57,8 +59,10 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton addButton;
     @FXML
+    private JFXButton addTaskListButton;
+    @FXML
     private JFXListView listView;
-
+           
     private DataModel model;
     //Currently selected taskList
     private TaskListManager tlm;
@@ -80,14 +84,14 @@ public class MainController implements Initializable {
     }
 
     private void addTaskViews() {
-        addTaskList("Collect");
+        addTaskListButton("Collect");
         addSeparator();
-        addTaskList("Today");
-        addTaskList("Upcoming");
-        addTaskList("Anytime");
-        addTaskList("Future");
+        addTaskListButton("Today");
+        addTaskListButton("Upcoming");
+        addTaskListButton("Anytime");
+        addTaskListButton("Future");
         addSeparator();
-        addTaskList("Exemple");
+        addTaskListButton("Exemple");
     }
 
     private void addListeners() {
@@ -96,6 +100,17 @@ public class MainController implements Initializable {
             public void handle(ActionEvent event) {
                 try {
                     addNewTask();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        addTaskListButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    addNewTaskList();
                 } catch (IOException ex) {
                     Logger.getLogger(MainController.class.getName())
                             .log(Level.SEVERE, null, ex);
@@ -117,8 +132,20 @@ public class MainController implements Initializable {
             currentTaskList.addTask(t);
         }
     }
+    
+    private void addNewTaskList() throws IOException {
+        NewTaskListWindow ntlWindow = new NewTaskListWindow();
+        ntlWindow.showAndWait();
+        String taskListTitle = ntlWindow.getTaskListTitle();
+        if (taskListTitle == null || taskListTitle.equals("")) {
+            //Rejected
+        } else {
+            //Added
+            addTaskListButton(taskListTitle);
+        }
+    }
 
-    private void addTaskList(String name) {
+    private void addTaskListButton(String name) {
         //Logic
         TaskList newTaskList = new TaskList(tlm.getNewID(), name);
         tlm.addTaskList(newTaskList);
@@ -156,5 +183,5 @@ public class MainController implements Initializable {
         for (Task t : alTasks) {
             listView.getItems().add(t);
         }
-    }
+    }   
 }

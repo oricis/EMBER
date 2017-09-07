@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="73.0" prefWidth="337.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="com.soheibo.Controller.NewTaskListController">
+   <children>
+      <JFXTextField fx:id="nameFieldNewTaskList" layoutX="14.0" layoutY="14.0" prefHeight="42.0" prefWidth="312.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXTextField>
+   </children>
+</AnchorPane>
