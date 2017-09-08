@@ -43,6 +43,8 @@ public class Ember extends Application {
 
         stage.setTitle("Ember");
         stage.setScene(new Scene(root));
+        stage.setMinHeight(550);
+        stage.setMinWidth(550);
         stage.show();
         stage.toFront();
     }
