@@ -45,6 +45,14 @@ public class TaskList {
         tskList.add(t);
     }
     
+    /**
+     * Removes a task from the taskList.
+     * @param t 
+     */
+    public void removeTask(Task t) {
+        tskList.remove(t);
+    }
+    
     //----------------GETTERS AND SETTERS--------------------------------------
     public String getName() {
         return name;

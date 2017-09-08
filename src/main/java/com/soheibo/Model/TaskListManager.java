@@ -97,4 +97,12 @@ public class TaskListManager {
         return null;
     }
     
+    /**
+     * Returns the first taskList.
+     * @return 
+     */
+    public TaskList getFirstTaskList() {
+        return mainTaskLists.get(0);
+    }
+    
 }

@@ -61,6 +61,10 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton addTaskListButton;
     @FXML
+    private JFXButton modifyTaskButton;
+    @FXML
+    private JFXButton deleteTaskButton;
+    @FXML
     private JFXListView listView;
            
     private DataModel model;
@@ -79,7 +83,7 @@ public class MainController implements Initializable {
 
         addTaskViews();
         addListeners();
-        currentTaskList = tlm.getTaskListFromName("Collect");
+        currentTaskList = tlm.getFirstTaskList();
         updateContentPanel();
     }
 
@@ -115,6 +119,18 @@ public class MainController implements Initializable {
                     Logger.getLogger(MainController.class.getName())
                             .log(Level.SEVERE, null, ex);
                 }
+            }
+        });
+        modifyTaskButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO
+            }
+        });
+        deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                deleteSelectedTask();
             }
         });
     }
@@ -183,5 +199,20 @@ public class MainController implements Initializable {
         for (Task t : alTasks) {
             listView.getItems().add(t);
         }
-    }   
+    }
+    
+    private void modifySelectedTask() {
+        Task task = (Task) listView.getSelectionModel().getSelectedItem();
+        if (task != null) {
+            //TODO
+        }      
+    }
+    
+    private void deleteSelectedTask() {
+        Task task = (Task) listView.getSelectionModel().getSelectedItem();
+        if (task != null) {
+            currentTaskList.removeTask(task);
+        }
+        updateContentPanel();
+    }
 }

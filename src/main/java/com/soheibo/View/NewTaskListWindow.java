@@ -15,7 +15,6 @@
  */
 package com.soheibo.View;
 
-import com.soheibo.Controller.NewTaskController;
 import com.soheibo.Controller.NewTaskListController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
