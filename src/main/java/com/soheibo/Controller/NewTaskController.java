@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXTextField;
+import com.soheibo.Model.Task;
 import javafx.fxml.FXML;
 
 /**
@@ -23,10 +24,16 @@ import javafx.fxml.FXML;
  * @author Soheib El-Harrache
  */
 public class NewTaskController {
+
     @FXML
     JFXTextField nameFieldNewTask;
-    
-    public String getTaskTitle() {
-        return nameFieldNewTask.getText();
+
+    public Task getTask() {
+        //Verifications
+        if (!nameFieldNewTask.getText().equals("")) {
+            return new Task(nameFieldNewTask.getText());
+        } else {
+            return null;
+        }       
     }
 }

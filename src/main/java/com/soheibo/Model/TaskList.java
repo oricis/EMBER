@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,41 @@
 package com.soheibo.Model;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Contains tasks specified for the lists.
  * @author Soheib El-Harrache
  */
 public class TaskList {
+    static AtomicInteger nextId = new AtomicInteger();
     private int ID;
     private String name;
     private ArrayList<Task> tskList;
+    private boolean necessary;
 
     /**
      * Creates a default list of tasks.
-     * @param ID
-     * @param name 
+     * @param name Name of the list
      */
-    public TaskList(int ID, String name) {
-        this.ID = ID;
+    public TaskList(String name) {
+        this.ID = nextId.incrementAndGet();
         this.name = name;
         this.tskList = new ArrayList();
+        this.necessary = false;
+    }
+    
+    /**
+     * Creates a list of tasks. The list
+     * can be necessary (cannot be removed).
+     * @param name Name of the list
+     * @param necessary True means necessary
+     */
+    public TaskList(String name, boolean necessary) {
+        this.ID = nextId.incrementAndGet();
+        this.name = name;
+        this.tskList = new ArrayList();
+        this.necessary = necessary;
     }
     
     /**
@@ -74,7 +90,12 @@ public class TaskList {
         return ID;
     }
 
+    //TODO: Might remove it
     public void setID(int ID) {
         this.ID = ID;
-    }   
+    }
+    
+    public boolean isNecessary() {
+        return this.necessary;
+    }
 }

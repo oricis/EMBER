@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package com.soheibo.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Used to create tasks and modify them.
@@ -24,6 +25,7 @@ import java.util.Date;
  * @author Soheib El-Harrache
  */
 public class Task {
+    static AtomicInteger nextId = new AtomicInteger();
     
     private int ID;
     private String title;
@@ -42,11 +44,11 @@ public class Task {
     /**
      * Create a new task with a title. By default,
      * it's not repetitive.
-     * @param ID
+
      * @param title 
      */
-    public Task(int ID, String title) {
-        this.ID = ID;
+    public Task(String title) {
+        this.ID = nextId.incrementAndGet();
         this.title = title;
         this.description = "";
         

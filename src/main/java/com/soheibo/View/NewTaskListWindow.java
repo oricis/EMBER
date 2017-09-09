@@ -16,6 +16,7 @@
 package com.soheibo.View;
 
 import com.soheibo.Controller.NewTaskListController;
+import com.soheibo.Model.TaskList;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +30,7 @@ import javafx.stage.Stage;
  * @author Soheib El-Harrache
  */
 public class NewTaskListWindow extends Stage {
-    private NewTaskListController taskListController;
+    private final NewTaskListController taskListController;
     
     public NewTaskListWindow() throws IOException {
         super();
@@ -60,7 +61,7 @@ public class NewTaskListWindow extends Stage {
         });
     }
     
-    public String getTaskListTitle() {
-        return taskListController.getTaskTitle();
+    public TaskList getTaskList() {
+        return taskListController.getTaskList();
     }
 }

@@ -5,6 +5,38 @@ EMBER is a free open-source GTD ( **G**et **T**hings **D**one ) software.
 It's portable, secure, efficient and easy to use while offering a beautifully
 crafted interface.
 
+## Participate!
+EMBER is still in **early stage** development. If you want to help, feel free to contact me.
+My personal goal is to try making a defacto portable To-Do software.
+
+### You can
+- Give advices
+- Correct code/paradigms
+- Help create classes
+- Design a better interface
+- Correct my English (as a Second Language)
+- Share
+
+### Progress
+- [x] Basic Interface
+- [x] Add and remove tasks
+- [x] Add lists
+- [ ] Remove lists
+- [ ] Modify tasks
+- [ ] Modify lists
+- [ ] Add complexity to tasks
+- [ ] Save/Retrieve tasks from File
+- [ ] Add a calendar
+- [ ] Launch notifications at the right time
+- [ ] Create a portable installer (using IzPack)
+- [ ] Use the System Tray and shortcuts
+- [ ] Add an optional Menu and Preferences (config)
+- [ ] Add encryption to files
+- [ ] Add new languages
+- [ ] Create a website to distribute versions
+
+![Ember Sprint 2 Screenshot](https://user-images.githubusercontent.com/19310562/30243462-fcce8dba-9577-11e7-8b96-73538e7e22cb.PNG)
+
 ## Build
 
 ### Prerequisites
@@ -23,7 +55,7 @@ sudo pacman -S gradle
 ```
 
 #### Others:
-You can also download and install it from the gradle's [website](https://gradle.org/install/).
+You can also download and install it from Gradle's [website](https://gradle.org/install/).
 
 ### Build from source
 Run this command within the folder of the project:

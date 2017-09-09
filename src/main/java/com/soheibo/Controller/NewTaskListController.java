@@ -16,6 +16,7 @@
 package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXTextField;
+import com.soheibo.Model.TaskList;
 import javafx.fxml.FXML;
 
 /**
@@ -26,7 +27,11 @@ public class NewTaskListController {
     @FXML
     JFXTextField nameFieldNewTaskList;
     
-    public String getTaskTitle() {
-        return nameFieldNewTaskList.getText();
+    public TaskList getTaskList() {
+        if (!nameFieldNewTaskList.getText().equals("")) {
+            return new TaskList(nameFieldNewTaskList.getText());
+        } else {
+            return null;
+        }  
     }
 }

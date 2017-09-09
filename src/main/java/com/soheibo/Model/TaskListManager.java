@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,29 +22,33 @@ import java.util.ArrayList;
  * @author Soheib El-Harrache
  */
 public class TaskListManager {
-    
-    //Used to give unique IDs
-    private int lastID;
-    private ArrayList<TaskList> mainTaskLists;
-    private TaskList collectTaskList;
+
+    private final ArrayList<TaskList> mainTaskLists;
+    //Saves performance in the long run
+    private final TaskList collectTaskList;
+    private final ArrayList<TaskList> basicViews;
 
     /**
-     * Default TaskListManager has normally a Collect, a Today,
-     * an Upcoming, a Anytime and a Future list.
+     * Default TaskListManager has normally a "Collect", a "Today", 
+     * an "Upcoming", a "Anytime" and a "Future" list.
      */
     public TaskListManager() {
-        this.lastID = 0;
         this.mainTaskLists = new ArrayList();
+        this.collectTaskList = new TaskList("Collect", true);
+        this.basicViews = new ArrayList();
+        this.basicViews.add(new TaskList("Today", true)); 
+        this.basicViews.add(new TaskList("Upcoming", true));
+        this.basicViews.add(new TaskList("Anytime", true));
+        this.basicViews.add(new TaskList("Future", true));             
     }
-    
+
     /**
-     * Returns true if the name is already
-     * used by a taskList.
-     * 
+     * Returns true if the name is already used by a taskList.
+     *
      * @param name The name to verify.
      * @return True if the name is used.
      */
-    public boolean listNameUsed (String name) {
+    public boolean listNameUsed(String name) {
         for (TaskList tskList : mainTaskLists) {
             if (tskList.getName().equals(name)) {
                 return true;
@@ -52,17 +56,24 @@ public class TaskListManager {
         }
         return false;
     }
-    
+
     /**
      * Adds a taskList to the taskListManager.
-     * @param tskList 
+     *
+     * @param tskList
      */
     public void addTaskList(TaskList tskList) {
         mainTaskLists.add(tskList);
     }
-    
+
+    public void addTaskToList(Task task, TaskList taskList) {
+        //TODO: add triggers or mechanism to future plannings
+        taskList.addTask(task);
+    }
+
     /**
      * Removes a taskList using it's name.
+     *
      * @param name The name of the taskList to remove.
      */
     public void removeTaskList(String name) {
@@ -70,39 +81,19 @@ public class TaskListManager {
             if (tskList.getName().equals(name)) {
                 mainTaskLists.remove(tskList);
             }
-        }       
-    }
-    
-    /**
-     * Returns a new ID, being incrementally given.
-     * @return 
-     */
-    public int getNewID() {
-        lastID++;
-        return lastID;
-    }
-    
-    /**
-     * Returns a taskList with a certain name. Returns null
-     * if not found.
-     * @param name
-     * @return 
-     */
-    public TaskList getTaskListFromName(String name) {
-        for (TaskList tskList : mainTaskLists) {
-            if (tskList.getName().equals(name)) {
-                return tskList;
-            }
         }
-        return null;
     }
     
-    /**
-     * Returns the first taskList.
-     * @return 
-     */
-    public TaskList getFirstTaskList() {
-        return mainTaskLists.get(0);
+    //----------------GETTERS AND SETTERS--------------------------------------
+    public TaskList getCollectTaskList() {
+        return collectTaskList;
     }
-    
+
+    public ArrayList<TaskList> getBasicViews() {
+        return basicViews;
+    }
+
+    public ArrayList<TaskList> getMainTaskLists() {
+        return mainTaskLists;
+    }
 }

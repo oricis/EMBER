@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXPopup;
 import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
 import com.soheibo.Model.TaskList;
@@ -32,7 +31,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -66,7 +64,8 @@ public class MainController implements Initializable {
     private JFXButton deleteTaskButton;
     @FXML
     private JFXListView listView;
-           
+    
+    //Data
     private DataModel model;
     //Currently selected taskList
     private TaskListManager tlm;
@@ -83,102 +82,85 @@ public class MainController implements Initializable {
 
         addTaskViews();
         addListeners();
-        currentTaskList = tlm.getFirstTaskList();
+        currentTaskList = tlm.getCollectTaskList();
         updateContentPanel();
     }
 
+    /**
+     * Adds the necessary taskViews
+     */
     private void addTaskViews() {
-        addTaskListButton("Collect");
+        addTaskListButton(tlm.getCollectTaskList());
         addSeparator();
-        addTaskListButton("Today");
-        addTaskListButton("Upcoming");
-        addTaskListButton("Anytime");
-        addTaskListButton("Future");
+        tlm.getBasicViews().forEach((taskList) -> {
+            addTaskListButton(taskList);
+        });
         addSeparator();
-        addTaskListButton("Exemple");
     }
 
     private void addListeners() {
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    addNewTask();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainController.class.getName())
-                            .log(Level.SEVERE, null, ex);
-                }
+        addButton.setOnAction((ActionEvent event) -> {
+            try {
+                addNewTask();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
         });
-        addTaskListButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    addNewTaskList();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainController.class.getName())
-                            .log(Level.SEVERE, null, ex);
-                }
+        addTaskListButton.setOnAction((ActionEvent event) -> {
+            try {
+                addNewTaskList();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
         });
-        modifyTaskButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //TODO
-            }
+        modifyTaskButton.setOnAction((ActionEvent event) -> {
+            //TODO
         });
-        deleteTaskButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                deleteSelectedTask();
-            }
+        deleteTaskButton.setOnAction((ActionEvent event) -> {
+            deleteSelectedTask();
         });
     }
 
     private void addNewTask() throws IOException {
         NewTaskWindow ntWindow = new NewTaskWindow();
         ntWindow.showAndWait();
-        String taskTitle = ntWindow.getTaskTitle();
-        if (taskTitle == null || taskTitle.equals("")) {
+        Task task = ntWindow.getTask();
+        if (task == null) {
             //Rejected
         } else {
             //Added
-            Task t = new Task(tlm.getNewID(), taskTitle);
-            listView.getItems().add(t);
-            currentTaskList.addTask(t);
+            listView.getItems().add(task);
+            currentTaskList.addTask(task);
         }
     }
     
     private void addNewTaskList() throws IOException {
         NewTaskListWindow ntlWindow = new NewTaskListWindow();
         ntlWindow.showAndWait();
-        String taskListTitle = ntlWindow.getTaskListTitle();
-        if (taskListTitle == null || taskListTitle.equals("")) {
+        TaskList taskList = ntlWindow.getTaskList();
+        if (taskList == null) {
             //Rejected
         } else {
             //Added
-            addTaskListButton(taskListTitle);
+            tlm.addTaskList(taskList);
+            addTaskListButton(taskList);
         }
     }
 
-    private void addTaskListButton(String name) {
-        //Logic
-        TaskList newTaskList = new TaskList(tlm.getNewID(), name);
-        tlm.addTaskList(newTaskList);
+    private void addTaskListButton(TaskList taskList) {      
         //Graphic
-        TaskListButton newBtn = new TaskListButton(newTaskList);
+        TaskListButton newBtn = new TaskListButton(taskList);
         newBtn.setLayoutX(14.0);
         newBtn.setLayoutY(lastLayoutYLists + DISTANCE_BETWEEN_LISTS_BTNS);
         taskListsAnchorPane.getChildren().add(newBtn);
 
         lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
         
-        newBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentTaskList = newTaskList;
-                updateContentPanel();
-            }
+        newBtn.setOnAction((ActionEvent event) -> {
+            currentTaskList = taskList;
+            updateContentPanel();
         });
     }
 
@@ -196,9 +178,9 @@ public class MainController implements Initializable {
         titleTaskListContent.setText(currentTaskList.getName());
         ArrayList<Task> alTasks = currentTaskList.getTskList();
         listView.getItems().clear();
-        for (Task t : alTasks) {
+        alTasks.forEach((t) -> {
             listView.getItems().add(t);
-        }
+        });
     }
     
     private void modifySelectedTask() {

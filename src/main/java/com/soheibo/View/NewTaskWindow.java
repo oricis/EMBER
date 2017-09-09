@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 .
+ * Copyright 2017 Soheib El-Harrache.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.soheibo.View;
 
 import com.soheibo.Controller.NewTaskController;
+import com.soheibo.Model.Task;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,7 +61,7 @@ public class NewTaskWindow extends Stage {
         });
     }
     
-    public String getTaskTitle() {
-        return taskController.getTaskTitle();
+    public Task getTask() {
+        return taskController.getTask();
     }
 }
