@@ -7,7 +7,7 @@ crafted interface.
 
 ## Participate!
 EMBER is still in **early stage** development. If you want to help, feel free to contact me.
-My personal goal is to try making a defacto portable To-Do software.
+My personal goal is to try making the *de facto* free, open-source and portable To-Do List software.
 
 ### You can
 - Give advices
