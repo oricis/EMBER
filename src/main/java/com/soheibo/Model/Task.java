@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Soheib El-Harrache
  */
 public class Task {
-    static AtomicInteger nextId = new AtomicInteger();
+    private static AtomicInteger currentIDcount = new AtomicInteger();
     
     private int ID;
     private String title;
@@ -48,9 +48,10 @@ public class Task {
      * @param title 
      */
     public Task(String title) {
-        this.ID = nextId.incrementAndGet();
+        this.ID = currentIDcount.incrementAndGet();
         this.title = title;
         this.description = "";
+        this.limited = false;
         
         this.creationDate = new Date();
         this.repetitive = false;
@@ -61,7 +62,6 @@ public class Task {
 
     /**
      * Creates a complete task with all paramaters.
-     * @param ID
      * @param title
      * @param description
      * @param limited
@@ -71,10 +71,10 @@ public class Task {
      * @param taskList
      * @param requiredTasks 
      */
-    public Task(int ID, String title, String description,
+    public Task(String title, String description,
             boolean limited, Date endDate, boolean repetitive, int numberTasks,
             ArrayList<Task> taskList, ArrayList<Task> requiredTasks) {
-        this.ID = ID;
+        this.ID = currentIDcount.incrementAndGet();
         this.title = title;
         this.description = description;
         this.creationDate = new Date();
@@ -91,10 +91,11 @@ public class Task {
     public int getID() {
         return ID;
     }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
+    
+    //Should not set IDs
+//    public void setID(int ID) {
+//        this.ID = ID;
+//    }
 
     public String getTitle() {
         return title;
@@ -115,10 +116,11 @@ public class Task {
     public Date getCreationDate() {
         return creationDate;
     }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
+    
+    //No usage found yet
+//    public void setCreationDate(Date creationDate) {
+//        this.creationDate = creationDate;
+//    }
 
     public boolean isLimited() {
         return limited;
@@ -148,6 +150,8 @@ public class Task {
         return numberTasks;
     }
 
+    //IMPORTANT: Keeping it to boost performance
+    //when adding another list to this task
     public void setNumberTasks(int numberTasks) {
         this.numberTasks = numberTasks;
     }

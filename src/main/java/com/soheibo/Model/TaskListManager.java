@@ -71,17 +71,13 @@ public class TaskListManager {
         taskList.addTask(task);
     }
 
-    /**
-     * Removes a taskList using it's name.
-     *
-     * @param name The name of the taskList to remove.
-     */
-    public void removeTaskList(String name) {
-        for (TaskList tskList : mainTaskLists) {
-            if (tskList.getName().equals(name)) {
-                mainTaskLists.remove(tskList);
-            }
-        }
+    public void removeTaskList(TaskList taskList) {
+        mainTaskLists.remove(taskList);
+    }
+    
+    public void removeTaskFromList(Task task, TaskList taskList) {
+        //TODO: add triggers or mechanism to future plannings
+        taskList.removeTask(task);
     }
     
     //----------------GETTERS AND SETTERS--------------------------------------

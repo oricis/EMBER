@@ -41,7 +41,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Soheib El-Harrache
  */
-public class MainController implements Initializable {
+public class MainController {
 
     private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
     private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
@@ -64,19 +64,23 @@ public class MainController implements Initializable {
     private JFXButton deleteTaskButton;
     @FXML
     private JFXListView listView;
-    
+
     //Data
     private DataModel model;
     //Currently selected taskList
     private TaskListManager tlm;
     private TaskList currentTaskList;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //Blank for now
-    }
-
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//        //Blank for now
+//    }
     public void initModel(DataModel model) {
+        if (this.model != null) {
+            throw new IllegalStateException(
+                    "Model can only be initialized once");
+        }
+
         this.model = model;
         this.tlm = model.getTaskListManager();
 
@@ -124,7 +128,7 @@ public class MainController implements Initializable {
     }
 
     private void addNewTask() throws IOException {
-        NewTaskWindow ntWindow = new NewTaskWindow();
+        NewTaskWindow ntWindow = new NewTaskWindow(false);
         ntWindow.showAndWait();
         Task task = ntWindow.getTask();
         if (task == null) {
@@ -135,7 +139,7 @@ public class MainController implements Initializable {
             currentTaskList.addTask(task);
         }
     }
-    
+
     private void addNewTaskList() throws IOException {
         NewTaskListWindow ntlWindow = new NewTaskListWindow();
         ntlWindow.showAndWait();
@@ -149,7 +153,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void addTaskListButton(TaskList taskList) {      
+    private void addTaskListButton(TaskList taskList) {
         //Graphic
         TaskListButton newBtn = new TaskListButton(taskList);
         newBtn.setLayoutX(14.0);
@@ -157,7 +161,7 @@ public class MainController implements Initializable {
         taskListsAnchorPane.getChildren().add(newBtn);
 
         lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
-        
+
         newBtn.setOnAction((ActionEvent event) -> {
             currentTaskList = taskList;
             updateContentPanel();
@@ -182,14 +186,14 @@ public class MainController implements Initializable {
             listView.getItems().add(t);
         });
     }
-    
+
     private void modifySelectedTask() {
         Task task = (Task) listView.getSelectionModel().getSelectedItem();
         if (task != null) {
             //TODO
-        }      
+        }
     }
-    
+
     private void deleteSelectedTask() {
         Task task = (Task) listView.getSelectionModel().getSelectedItem();
         if (task != null) {

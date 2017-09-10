@@ -18,41 +18,52 @@ package com.soheibo.View;
 import com.soheibo.Controller.NewTaskController;
 import com.soheibo.Model.Task;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 /**
  *
  * @author Soheib El-Harrache
  */
 public class NewTaskWindow extends Stage {
+
     private NewTaskController taskController;
-    
-    public NewTaskWindow() throws IOException {
+    private boolean provideDetails;
+
+    public NewTaskWindow(boolean provideDetails) throws IOException {
         super();
-        
+        this.provideDetails = provideDetails;
+
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/fxml/newTask.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         taskController
                 = (NewTaskController) fxmlLoader.getController();
-        
+
         Scene scene = new Scene(root);
         setScene(scene);
         setTitle("Add a task");
         setResizable(false);
-        
+
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 this.close();
+            } else if (keyEvent.getCode() == KeyCode.TAB
+                    && this.provideDetails) {                
             }
         });
-        
+
         //Not focusing the window means closing it
         focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (!isNowFocused) {
@@ -60,7 +71,7 @@ public class NewTaskWindow extends Stage {
             }
         });
     }
-    
+
     public Task getTask() {
         return taskController.getTask();
     }

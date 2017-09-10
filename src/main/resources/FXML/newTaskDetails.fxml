@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXColorPicker?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTextArea layoutX="18.0" layoutY="42.0" prefHeight="64.0" prefWidth="314.0" />
+      <Label layoutX="15.0" layoutY="15.0" text="Description :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="140.0" text="End date :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <JFXTimePicker layoutX="200.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
+      <Label layoutX="200.0" layoutY="140.0" text="End time :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <JFXColorPicker layoutX="19.0" layoutY="235.0" prefHeight="25.0" prefWidth="128.0" />
+      <JFXComboBox layoutX="203.0" layoutY="235.0" prefHeight="25.0" prefWidth="128.0" />
+      <JFXDatePicker layoutX="15.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
+      <Label layoutX="15.0" layoutY="200.0" text="Color :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="200.0" layoutY="200.0" text="Repetitive :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
