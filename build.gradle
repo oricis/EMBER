@@ -25,7 +25,7 @@ dependencies {
     //Beautiful JavaFX Material Design
     compile 'com.jfoenix:jfoenix:1.4.0'
     //Font Awesome for JavaFX
-    compile group: 'de.jensd', name: 'fontawesomefx', version: '8.2'
+    compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
     //Junit
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

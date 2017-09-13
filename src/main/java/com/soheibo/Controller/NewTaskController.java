@@ -36,4 +36,8 @@ public class NewTaskController {
             return null;
         }       
     }
+
+    public void fillOldTaskInfos(Task oldTask) {
+        nameFieldNewTask.setText(oldTask.getTitle());
+    }
 }

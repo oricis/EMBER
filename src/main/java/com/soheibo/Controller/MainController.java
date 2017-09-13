@@ -25,15 +25,13 @@ import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
 import com.soheibo.View.TaskListButton;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
 
@@ -49,7 +47,11 @@ public class MainController {
 
     //GUI
     @FXML
+    private AnchorPane leftMainAnchorPane;
+    @FXML
     private AnchorPane taskListsAnchorPane;
+    @FXML
+    private ScrollPane taskListsScrollPane;
     @FXML
     private AnchorPane rightContentAnchorPane;
     @FXML
@@ -64,7 +66,7 @@ public class MainController {
     private JFXButton deleteTaskButton;
     @FXML
     private JFXListView listView;
-
+    
     //Data
     private DataModel model;
     //Currently selected taskList
@@ -94,6 +96,7 @@ public class MainController {
      * Adds the necessary taskViews
      */
     private void addTaskViews() {
+
         addTaskListButton(tlm.getCollectTaskList());
         addSeparator();
         tlm.getBasicViews().forEach((taskList) -> {
@@ -120,7 +123,11 @@ public class MainController {
             }
         });
         modifyTaskButton.setOnAction((ActionEvent event) -> {
-            //TODO
+            try {
+                modifySelectedTask();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         deleteTaskButton.setOnAction((ActionEvent event) -> {
             deleteSelectedTask();
@@ -187,10 +194,23 @@ public class MainController {
         });
     }
 
-    private void modifySelectedTask() {
-        Task task = (Task) listView.getSelectionModel().getSelectedItem();
-        if (task != null) {
-            //TODO
+    private void modifySelectedTask() throws IOException {
+        Task oldTask = (Task) listView.getSelectionModel().getSelectedItem();
+        if (oldTask != null) {
+            NewTaskWindow ntWindow = new NewTaskWindow(false, oldTask);
+            ntWindow.showAndWait();
+            Task modifiedTask = ntWindow.getTask();
+
+            if (modifiedTask == null) {
+                //Rejected
+            } else {
+                //Added
+                listView.getItems().remove(oldTask);
+                currentTaskList.removeTask(oldTask);
+                listView.getItems().add(modifiedTask);
+                currentTaskList.addTask(modifiedTask);
+                listView.refresh();
+            }
         }
     }
 

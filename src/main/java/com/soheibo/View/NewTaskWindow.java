@@ -54,7 +54,40 @@ public class NewTaskWindow extends Stage {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 this.close();
             } else if (keyEvent.getCode() == KeyCode.TAB
-                    && this.provideDetails) {                
+                    && this.provideDetails) {
+            }
+        });
+
+        //Not focusing the window means closing it
+        focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (!isNowFocused) {
+                close();
+            }
+        });
+    }
+
+    public NewTaskWindow(boolean provideDetails, Task oldTask)
+            throws IOException {
+        super();
+        this.provideDetails = provideDetails;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/fxml/newTask.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        taskController
+                = (NewTaskController) fxmlLoader.getController();
+        Scene scene = new Scene(root);
+        setScene(scene);
+        setTitle("Add a task");
+        setResizable(false);
+
+        taskController.fillOldTaskInfos(oldTask);
+        //After pressing 'Enter', closes this window (which returns the value)
+        scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                this.close();
+            } else if (keyEvent.getCode() == KeyCode.TAB
+                    && this.provideDetails) {
             }
         });
 

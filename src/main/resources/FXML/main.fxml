@@ -3,20 +3,25 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.24971231300345226" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.soheibo.Controller.MainController">
+<SplitPane dividerPositions="0.24971231300345226" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.soheibo.Controller.MainController">
     <items>
-        <AnchorPane fx:id="taskListsAnchorPane" maxWidth="300" minHeight="0.0" minWidth="150.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+        <AnchorPane fx:id="leftMainAnchorPane" maxWidth="300" minHeight="0.0" minWidth="150.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
             <children>
                 <JFXButton fx:id="addTaskListButton" buttonType="RAISED" layoutX="14.0" layoutY="528.0" prefHeight="25.0" prefWidth="179.0" style="-fx-background-color: green;" text="Add a list" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </JFXButton>
+            <ScrollPane fx:id="taskListsScrollPane" hbarPolicy="NEVER" layoutX="7.0" prefHeight="518.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <AnchorPane fx:id="taskListsAnchorPane" />
+               </content></ScrollPane>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="rightContentAnchorPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
@@ -32,18 +37,29 @@
                         <Font name="FontAwesome Regular" size="41.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="addButton" buttonType="RAISED" layoutX="591.0" layoutY="66.0" style="-fx-background-color: green;" text="Add" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
+                <JFXButton fx:id="addButton" buttonType="RAISED" layoutX="20.0" layoutY="200.0" style="-fx-background-color: green;" text="Add" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="200.0">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
+                    
                 </JFXButton>
                 <JFXListView fx:id="listView" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0" />
-            <JFXButton fx:id="modifyTaskButton" buttonType="RAISED" layoutX="20.0" layoutY="208.0" style="-fx-background-color: #1e90ff;" text="Modify" textFill="WHITE" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="200.0">
+            <JFXButton fx:id="modifyTaskButton" buttonType="RAISED" layoutX="60.0" layoutY="200.0" style="-fx-background-color: #1e90ff;" text="Modify" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="200.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="deleteTaskButton" buttonType="RAISED" layoutX="77.0" layoutY="208.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="200.0">
+            <JFXButton fx:id="deleteTaskButton" buttonType="RAISED" layoutX="576.0" layoutY="200.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="200.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="deleteTaskButton1" buttonType="RAISED" layoutX="77.0" layoutY="68.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" AnchorPane.leftAnchor="77.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="modifyTaskButton1" buttonType="RAISED" layoutX="20.0" layoutY="68.0" style="-fx-background-color: #1e90ff;" text="Modify" textFill="WHITE" AnchorPane.leftAnchor="20.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
