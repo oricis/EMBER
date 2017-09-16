@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -45,6 +46,7 @@ public class NewTaskListWindow extends Stage {
         setScene(scene);
         setTitle("Add a list of tasks");
         setResizable(false);
+        initStyle(StageStyle.TRANSPARENT);
         
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {

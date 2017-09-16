@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -48,7 +49,8 @@ public class NewTaskWindow extends Stage {
         setScene(scene);
         setTitle("Add a task");
         setResizable(false);
-
+        initStyle(StageStyle.TRANSPARENT);
+        
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -80,7 +82,8 @@ public class NewTaskWindow extends Stage {
         setScene(scene);
         setTitle("Add a task");
         setResizable(false);
-
+        initStyle(StageStyle.TRANSPARENT);
+        
         taskController.fillOldTaskInfos(oldTask);
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {

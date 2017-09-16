@@ -40,7 +40,8 @@ public class Ember extends Application {
 
         DataModel model = new DataModel();
         mainController.initModel(model);
-
+        mainController.setStage(stage);
+        
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/CSS/main.css");
         stage.setTitle("Ember");

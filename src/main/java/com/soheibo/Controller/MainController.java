@@ -33,7 +33,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -66,17 +68,16 @@ public class MainController {
     private JFXButton deleteTaskButton;
     @FXML
     private JFXListView listView;
-    
+
+    //To modify stage from here
+    private Stage stage;
+
     //Data
     private DataModel model;
     //Currently selected taskList
     private TaskListManager tlm;
     private TaskList currentTaskList;
 
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//        //Blank for now
-//    }
     public void initModel(DataModel model) {
         if (this.model != null) {
             throw new IllegalStateException(
@@ -86,7 +87,8 @@ public class MainController {
         this.model = model;
         this.tlm = model.getTaskListManager();
 
-        taskListsScrollPane.setFitToWidth(true);
+        graphicMods();
+
         addTaskViews();
         addListeners();
         currentTaskList = tlm.getCollectTaskList();
@@ -127,7 +129,8 @@ public class MainController {
             try {
                 modifySelectedTask();
             } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainController.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         });
         deleteTaskButton.setOnAction((ActionEvent event) -> {
@@ -136,8 +139,10 @@ public class MainController {
     }
 
     private void addNewTask() throws IOException {
+        blurIn();
         NewTaskWindow ntWindow = new NewTaskWindow(false);
         ntWindow.showAndWait();
+        blurOut();
         Task task = ntWindow.getTask();
         if (task == null) {
             //Rejected
@@ -149,9 +154,11 @@ public class MainController {
     }
 
     private void addNewTaskList() throws IOException {
+        blurIn();
         NewTaskListWindow ntlWindow = new NewTaskListWindow();
         ntlWindow.showAndWait();
         TaskList taskList = ntlWindow.getTaskList();
+        blurOut();
         if (taskList == null) {
             //Rejected
         } else {
@@ -196,6 +203,7 @@ public class MainController {
     }
 
     private void modifySelectedTask() throws IOException {
+        blurIn();
         Task oldTask = (Task) listView.getSelectionModel().getSelectedItem();
         if (oldTask != null) {
             NewTaskWindow ntWindow = new NewTaskWindow(false, oldTask);
@@ -213,6 +221,7 @@ public class MainController {
                 listView.refresh();
             }
         }
+        blurOut();
     }
 
     private void deleteSelectedTask() {
@@ -221,5 +230,26 @@ public class MainController {
             currentTaskList.removeTask(task);
         }
         updateContentPanel();
+    }
+
+    /**
+     * Modifies the GUI.
+     */
+    private void graphicMods() {
+        taskListsScrollPane.setFitToWidth(true);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    private void blurIn() {
+        GaussianBlur blur = new GaussianBlur(10);
+        stage.getScene().getRoot().setEffect(blur);
+    }
+    
+    private void blurOut() {
+        GaussianBlur blur = new GaussianBlur(0);
+        stage.getScene().getRoot().setEffect(blur);
     }
 }
