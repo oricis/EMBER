@@ -20,7 +20,7 @@
                 </JFXButton>
             <ScrollPane fx:id="taskListsScrollPane" hbarPolicy="NEVER" layoutX="7.0" prefHeight="518.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <AnchorPane fx:id="taskListsAnchorPane" />
+                  <AnchorPane fx:id="taskListsAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </content></ScrollPane>
             </children>
         </AnchorPane>

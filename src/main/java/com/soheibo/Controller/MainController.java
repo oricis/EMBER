@@ -86,6 +86,7 @@ public class MainController {
         this.model = model;
         this.tlm = model.getTaskListManager();
 
+        taskListsScrollPane.setFitToWidth(true);
         addTaskViews();
         addListeners();
         currentTaskList = tlm.getCollectTaskList();

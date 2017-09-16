@@ -41,8 +41,10 @@ public class Ember extends Application {
         DataModel model = new DataModel();
         mainController.initModel(model);
 
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/CSS/main.css");
         stage.setTitle("Ember");
-        stage.setScene(new Scene(root));
+        stage.setScene(scene);
         stage.setMinHeight(550);
         stage.setMinWidth(550);
         stage.show();
