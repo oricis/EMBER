@@ -33,7 +33,7 @@ public class Ember extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/fxml/main.fxml"));
+                getClass().getResource("/FXML/main.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         MainController mainController
                 = (MainController) fxmlLoader.getController();
