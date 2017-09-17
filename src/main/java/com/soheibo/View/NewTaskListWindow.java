@@ -38,7 +38,7 @@ public class NewTaskListWindow extends Stage {
     public NewTaskListWindow() throws IOException {
         super();
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/fxml/newTaskList.fxml"));
+                getClass().getResource("/FXML/newTaskList.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         taskListController
                 = (NewTaskListController) fxmlLoader.getController();

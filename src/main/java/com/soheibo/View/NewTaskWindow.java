@@ -41,7 +41,7 @@ public class NewTaskWindow extends Stage {
         this.provideDetails = provideDetails;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/fxml/newTask.fxml"));
+                getClass().getResource("/FXML/newTask.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         taskController
                 = (NewTaskController) fxmlLoader.getController();
