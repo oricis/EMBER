@@ -30,11 +30,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -57,7 +59,7 @@ public class MainController {
     @FXML
     private AnchorPane rightContentAnchorPane;
     @FXML
-    private Label titleTaskListContent;
+    private Text titleTaskList;
     @FXML
     private JFXButton addButton;
     @FXML
@@ -194,7 +196,7 @@ public class MainController {
     }
 
     private void updateContentPanel() {
-        titleTaskListContent.setText(currentTaskList.getName());
+        titleTaskList.setText(currentTaskList.getName());
         ArrayList<Task> alTasks = currentTaskList.getTskList();
         listView.getItems().clear();
         alTasks.forEach((t) -> {
@@ -237,6 +239,13 @@ public class MainController {
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
+        
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(1.0);
+        shadow.setOffsetX(1.0);
+        shadow.setColor(Color.GRAY);
+        titleTaskList.setEffect(shadow);
+        
     }
 
     public void setStage(Stage stage) {

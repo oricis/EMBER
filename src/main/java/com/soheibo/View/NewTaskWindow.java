@@ -34,6 +34,7 @@ public class NewTaskWindow extends Stage {
 
     private NewTaskController taskController;
     private boolean provideDetails;
+    private boolean wantsToAdd;
 
     public NewTaskWindow(boolean provideDetails) throws IOException {
         super();
@@ -51,12 +52,17 @@ public class NewTaskWindow extends Stage {
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
         
+        this.wantsToAdd = false;        
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
+                this.wantsToAdd = true;
                 this.close();
             } else if (keyEvent.getCode() == KeyCode.TAB
                     && this.provideDetails) {
+                
+            } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                this.close();
             }
         });
 
@@ -80,7 +86,6 @@ public class NewTaskWindow extends Stage {
                 = (NewTaskController) fxmlLoader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Add a task");
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
         
@@ -88,9 +93,13 @@ public class NewTaskWindow extends Stage {
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
+                this.wantsToAdd = true;
                 this.close();
             } else if (keyEvent.getCode() == KeyCode.TAB
                     && this.provideDetails) {
+                
+            } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                this.close();
             }
         });
 
@@ -103,6 +112,10 @@ public class NewTaskWindow extends Stage {
     }
 
     public Task getTask() {
-        return taskController.getTask();
+        if (this.wantsToAdd) {
+            return taskController.getTask();
+        } else {
+            return null;
+        }
     }
 }

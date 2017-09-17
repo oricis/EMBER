@@ -21,6 +21,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -45,6 +46,8 @@ public class Ember extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/CSS/main.css");
         stage.setTitle("Ember");
+        stage.getIcons().add(new Image(
+                "/Images/EMBER-LOGO-COLOR.png"));
         stage.setScene(scene);
         stage.setMinHeight(550);
         stage.setMinWidth(550);

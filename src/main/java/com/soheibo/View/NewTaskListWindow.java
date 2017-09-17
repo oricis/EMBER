@@ -31,30 +31,34 @@ import javafx.stage.StageStyle;
  * @author Soheib El-Harrache
  */
 public class NewTaskListWindow extends Stage {
+
     private final NewTaskListController taskListController;
-    
+    private boolean wantsToAdd;
+
     public NewTaskListWindow() throws IOException {
         super();
-        
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/fxml/newTaskList.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         taskListController
                 = (NewTaskListController) fxmlLoader.getController();
-        
+
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Add a list of tasks");
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
-        
+
+        this.wantsToAdd = false;
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
+                this.wantsToAdd = true;
+                this.close();
+            } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
                 this.close();
             }
         });
-        
+
         //Not focusing the window means closing it
         focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
             if (!isNowFocused) {
@@ -62,8 +66,12 @@ public class NewTaskListWindow extends Stage {
             }
         });
     }
-    
+
     public TaskList getTaskList() {
-        return taskListController.getTaskList();
+        if (this.wantsToAdd) {
+            return taskListController.getTaskList();
+        } else {
+            return null;
+        }
     }
 }
