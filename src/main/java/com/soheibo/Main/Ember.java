@@ -47,7 +47,7 @@ public class Ember extends Application {
         scene.getStylesheets().add("/CSS/main.css");
         stage.setTitle("Ember");
         stage.getIcons().add(new Image(
-                "/Images/EMBER-LOGO-COLOR.png"));
+                "/images/EMBER-LOGO-COLOR.png"));
         stage.setScene(scene);
         stage.setMinHeight(550);
         stage.setMinWidth(550);
