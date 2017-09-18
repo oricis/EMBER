@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,17 +37,6 @@
                     </font>
                     
                 </JFXButton>
-                <JFXListView fx:id="listView" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0" />
-            <JFXButton fx:id="modifyTaskButton" buttonType="RAISED" layoutX="60.0" layoutY="200.0" style="-fx-background-color: #1e90ff;" text="Modify" textFill="WHITE" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="200.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="deleteTaskButton" buttonType="RAISED" layoutX="576.0" layoutY="200.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="200.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
             <JFXButton fx:id="deleteTaskButton1" buttonType="RAISED" layoutX="77.0" layoutY="68.0" style="-fx-background-color: red;" text="Delete" textFill="WHITE" AnchorPane.leftAnchor="77.0">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -64,6 +52,11 @@
                   <Font size="32.0" />
                </font>
             </Text>
+            <ScrollPane fx:id="tasksScrollPane" layoutX="40.0" layoutY="242.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0">
+              <content>
+                <AnchorPane fx:id="tasksAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+              </content>
+            </ScrollPane>
                 <!--
                 <JFXButton layoutX="6.0" layoutY="8.0" AnchorPane.leftAnchor="6.0" text="+">
                 </JFXButton>

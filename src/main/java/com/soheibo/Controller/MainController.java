@@ -16,13 +16,13 @@
 package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
 import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
 import com.soheibo.Model.TaskList;
 import com.soheibo.Model.TaskListManager;
 import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
+import com.soheibo.View.TaskComponent;
 import com.soheibo.View.TaskListButton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,11 +65,9 @@ public class MainController {
     @FXML
     private JFXButton addTaskListButton;
     @FXML
-    private JFXButton modifyTaskButton;
+    private ScrollPane tasksScrollPane;
     @FXML
-    private JFXButton deleteTaskButton;
-    @FXML
-    private JFXListView listView;
+    private AnchorPane tasksAnchorPane;
 
     //To modify stage from here
     private Stage stage;
@@ -127,17 +125,6 @@ public class MainController {
                         .log(Level.SEVERE, null, ex);
             }
         });
-        modifyTaskButton.setOnAction((ActionEvent event) -> {
-            try {
-                modifySelectedTask();
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        });
-        deleteTaskButton.setOnAction((ActionEvent event) -> {
-            deleteSelectedTask();
-        });
     }
 
     private void addNewTask() throws IOException {
@@ -150,8 +137,8 @@ public class MainController {
             //Rejected
         } else {
             //Added
-            listView.getItems().add(task);
             currentTaskList.addTask(task);
+            updateContentPanel();
         }
     }
 
@@ -198,54 +185,52 @@ public class MainController {
     private void updateContentPanel() {
         titleTaskList.setText(currentTaskList.getName());
         ArrayList<Task> alTasks = currentTaskList.getTskList();
-        listView.getItems().clear();
+        tasksAnchorPane.getChildren().clear();
         alTasks.forEach((t) -> {
-            listView.getItems().add(t);
+            tasksAnchorPane.getChildren().add(new TaskComponent(t));
         });
     }
 
-    private void modifySelectedTask() throws IOException {
-        blurIn();
-        Task oldTask = (Task) listView.getSelectionModel().getSelectedItem();
-        if (oldTask != null) {
-            NewTaskWindow ntWindow = new NewTaskWindow(false, oldTask);
-            ntWindow.showAndWait();
-            Task modifiedTask = ntWindow.getTask();
-
-            if (modifiedTask == null) {
-                //Rejected
-            } else {
-                //Added
-                listView.getItems().remove(oldTask);
-                currentTaskList.removeTask(oldTask);
-                listView.getItems().add(modifiedTask);
-                currentTaskList.addTask(modifiedTask);
-                listView.refresh();
-            }
-        }
-        blurOut();
-    }
-
-    private void deleteSelectedTask() {
-        Task task = (Task) listView.getSelectionModel().getSelectedItem();
-        if (task != null) {
-            currentTaskList.removeTask(task);
-        }
-        updateContentPanel();
-    }
-
+//    private void modifySelectedTask() throws IOException {
+//        blurIn();
+//        Task oldTask = (Task) listView.getSelectionModel().getSelectedItem();
+//        if (oldTask != null) {
+//            NewTaskWindow ntWindow = new NewTaskWindow(false, oldTask);
+//            ntWindow.showAndWait();
+//            Task modifiedTask = ntWindow.getTask();
+//
+//            if (modifiedTask == null) {
+//                //Rejected
+//            } else {
+//                //Added
+//                listView.getItems().remove(oldTask);
+//                currentTaskList.removeTask(oldTask);
+//                listView.getItems().add(modifiedTask);
+//                currentTaskList.addTask(modifiedTask);
+//                listView.refresh();
+//            }
+//        }
+//        blurOut();
+//    }
+//    private void deleteSelectedTask() {
+//        Task task = (Task) listView.getSelectionModel().getSelectedItem();
+//        if (task != null) {
+//            currentTaskList.removeTask(task);
+//        }
+//        updateContentPanel();
+//    }
     /**
      * Modifies the GUI.
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
-        
+
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(1.0);
         shadow.setOffsetX(1.0);
         shadow.setColor(Color.GRAY);
         titleTaskList.setEffect(shadow);
-        
+
     }
 
     public void setStage(Stage stage) {
@@ -256,7 +241,7 @@ public class MainController {
         GaussianBlur blur = new GaussianBlur(10);
         stage.getScene().getRoot().setEffect(blur);
     }
-    
+
     private void blurOut() {
         GaussianBlur blur = new GaussianBlur(0);
         stage.getScene().getRoot().setEffect(blur);
