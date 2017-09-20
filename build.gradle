@@ -26,6 +26,8 @@ dependencies {
     compile 'com.jfoenix:jfoenix:1.4.0'
     //Font Awesome for JavaFX
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
+    //Serialization Lib
+    compile group: 'com.esotericsoftware', name: 'kryo', version: '4.0.1'
     //Junit
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

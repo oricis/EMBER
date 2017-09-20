@@ -24,10 +24,11 @@ package com.soheibo.Model;
 public class DataModel {
     
     TaskListManager taskListManager;
+    
     //Need to include config files
     
     public DataModel() {
-        this.taskListManager = new TaskListManager();
+        this.taskListManager = new TaskListManager();        
         //TODO:Verify existant data, else create default ones
     }
 

@@ -15,6 +15,9 @@
  */
 package com.soheibo.Controller;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.jfoenix.controls.JFXButton;
 import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
@@ -24,6 +27,10 @@ import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
 import com.soheibo.View.TaskComponent;
 import com.soheibo.View.TaskListButton;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -48,6 +55,8 @@ public class MainController {
     private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
     private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
     private double lastLayoutYLists = 0;
+    
+    private final String DEFAULT_FILE_NAME = "tasks.bin";
 
     //GUI
     @FXML
@@ -74,6 +83,8 @@ public class MainController {
 
     //Data
     private DataModel model;
+    private Kryo kryo;
+
     //Currently selected taskList
     private TaskListManager tlm;
     private TaskList currentTaskList;
@@ -86,17 +97,24 @@ public class MainController {
 
         this.model = model;
         this.tlm = model.getTaskListManager();
+        this.kryo = new Kryo();
 
+        //Read from disk if possible
+        if (new File(DEFAULT_FILE_NAME).isFile()) {
+            loadFromDisk();
+        }
+        
         graphicMods();
 
         addTaskViews();
+        addTaskLists();
         addListeners();
         currentTaskList = tlm.getCollectTaskList();
         updateContentPanel();
     }
 
     /**
-     * Adds the necessary taskViews
+     * Adds the necessary taskLists (called taskViews).
      */
     private void addTaskViews() {
 
@@ -106,6 +124,15 @@ public class MainController {
             addTaskListButton(taskList);
         });
         addSeparator();
+    }
+    
+    /**
+     * Adds custom taskLists.
+     */
+    private void addTaskLists() {
+        tlm.getMainTaskLists().forEach((taskList) -> {
+            addTaskListButton(taskList);
+        });
     }
 
     private void addListeners() {
@@ -139,6 +166,7 @@ public class MainController {
             //Added
             currentTaskList.addTask(task);
             updateContentPanel();
+            saveOnDisk();
         }
     }
 
@@ -154,6 +182,7 @@ public class MainController {
             //Added
             tlm.addTaskList(taskList);
             addTaskListButton(taskList);
+            saveOnDisk();
         }
     }
 
@@ -245,5 +274,33 @@ public class MainController {
     private void blurOut() {
         GaussianBlur blur = new GaussianBlur(0);
         stage.getScene().getRoot().setEffect(blur);
+    }
+
+    /**
+     * Saves on a file all tasks.
+     */
+    private void saveOnDisk() {
+        Output output;
+        try {
+            output = new Output(new FileOutputStream(DEFAULT_FILE_NAME));
+            kryo.writeObject(output, model);
+            output.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainController.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadFromDisk() {
+        Input input;
+        try {
+            input = new Input(new FileInputStream(DEFAULT_FILE_NAME));
+            this.model = kryo.readObject(input, DataModel.class);
+            this.tlm = model.getTaskListManager();
+            System.out.println("Reading complete.");
+            input.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }  
     }
 }

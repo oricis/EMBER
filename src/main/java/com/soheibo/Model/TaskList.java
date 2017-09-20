@@ -29,6 +29,13 @@ public class TaskList {
     private ArrayList<Task> tskList;
     private boolean necessary;
 
+    public TaskList() {
+        this.ID = nextId.incrementAndGet();
+        this.name = "New task list";
+        this.tskList = new ArrayList();
+        this.necessary = false;
+    }
+    
     /**
      * Creates a default list of tasks.
      * @param name Name of the list
