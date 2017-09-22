@@ -30,20 +30,22 @@ import javafx.scene.layout.AnchorPane;
  */
 public class TaskComponent extends AnchorPane {
 
-    public TaskComponent(Task task) {
+    public TaskComponent(Task task, int distance) {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/FXML/task.fxml"));
-        
-        TaskComponentController taskComponentController
-                = (TaskComponentController) fxmlLoader.getController();
-        taskComponentController.initTask(task);
         try {
             fxmlLoader.load();
         } catch (IOException ex) {
             Logger.getLogger(TaskComponent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        }      
+        TaskComponentController taskComponentController
+                = (TaskComponentController) fxmlLoader.getController();
+        
+        taskComponentController.initTask(task);
+        
+        //taskComponentController.initTask(task);
         AnchorPane.setLeftAnchor(this, 10.0);
         AnchorPane.setRightAnchor(this, 10.0);
+        AnchorPane.setTopAnchor(this, 10.0);
     }
 }

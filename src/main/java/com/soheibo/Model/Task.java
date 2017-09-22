@@ -41,6 +41,20 @@ public class Task {
     private ArrayList<Task> taskList;
     private ArrayList<Task> requiredTasks;
 
+    
+    public Task() {
+        this.ID = currentIDcount.incrementAndGet();
+        this.title = "";
+        this.description = "";
+        this.limited = false;
+        
+        this.creationDate = new Date();
+        this.repetitive = false;
+        
+        this.taskList = new ArrayList();
+        this.requiredTasks = new ArrayList();
+    }
+    
     /**
      * Create a new task with a title. By default,
      * it's not repetitive.

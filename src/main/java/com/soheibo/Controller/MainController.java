@@ -215,9 +215,11 @@ public class MainController {
         titleTaskList.setText(currentTaskList.getName());
         ArrayList<Task> alTasks = currentTaskList.getTskList();
         tasksAnchorPane.getChildren().clear();
-        alTasks.forEach((t) -> {
-            tasksAnchorPane.getChildren().add(new TaskComponent(t));
-        });
+        int distance = 10;
+        for (Task t: alTasks) {
+            tasksAnchorPane.getChildren().add(new TaskComponent(t, distance));
+            distance += 10;
+        }
     }
 
 //    private void modifySelectedTask() throws IOException {

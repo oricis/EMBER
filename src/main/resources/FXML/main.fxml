@@ -52,9 +52,9 @@
                   <Font size="32.0" />
                </font>
             </Text>
-            <ScrollPane fx:id="tasksScrollPane" layoutX="40.0" layoutY="242.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0">
+            <ScrollPane fx:id="tasksScrollPane" layoutX="40.0" layoutY="242.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0">
               <content>
-                <AnchorPane fx:id="tasksAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                <AnchorPane fx:id="tasksAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" />
               </content>
             </ScrollPane>
                 <!--

@@ -18,6 +18,7 @@ package com.soheibo.Controller;
 import com.jfoenix.controls.JFXTextField;
 import com.soheibo.Model.Task;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -27,6 +28,9 @@ public class NewTaskController {
 
     @FXML
     JFXTextField nameFieldNewTask;
+    
+    @FXML
+    AnchorPane taskDetailsAnchorPane;
 
     public Task getTask() {
         //Verifications
@@ -34,10 +38,18 @@ public class NewTaskController {
             return new Task(nameFieldNewTask.getText());
         } else {
             return null;
-        }       
+        }
+    }
+    
+    public void showDetails() {
+        taskDetailsAnchorPane.setVisible(true);
     }
 
     public void fillOldTaskInfos(Task oldTask) {
         nameFieldNewTask.setText(oldTask.getTitle());
+    }
+
+    public void applyGUIMods() {
+        //taskDetailsAnchorPane.managedProperty().bind(taskDetailsAnchorPane.visibleProperty());
     }
 }

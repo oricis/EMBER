@@ -17,6 +17,7 @@ package com.soheibo.View;
 
 import com.soheibo.Controller.NewTaskController;
 import com.soheibo.Model.Task;
+import com.sun.prism.paint.Color;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,22 +46,24 @@ public class NewTaskWindow extends Stage {
         Parent root = (Parent) fxmlLoader.load();
         taskController
                 = (NewTaskController) fxmlLoader.getController();
-
+        taskController.applyGUIMods();
+        
         Scene scene = new Scene(root);
+        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         setScene(scene);
         setTitle("Add a task");
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
-        
-        this.wantsToAdd = false;        
+
+        this.wantsToAdd = false;
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 this.wantsToAdd = true;
                 this.close();
-            } else if (keyEvent.getCode() == KeyCode.TAB
-                    && this.provideDetails) {
-                
+            } else if (keyEvent.getCode() == KeyCode.ALT) {
+                //Using alt key since tab doesn't work
+                taskController.showDetails();
             } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
                 this.close();
             }
@@ -88,7 +91,7 @@ public class NewTaskWindow extends Stage {
         setScene(scene);
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
-        
+
         taskController.fillOldTaskInfos(oldTask);
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
@@ -97,7 +100,7 @@ public class NewTaskWindow extends Stage {
                 this.close();
             } else if (keyEvent.getCode() == KeyCode.TAB
                     && this.provideDetails) {
-                
+
             } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
                 this.close();
             }
