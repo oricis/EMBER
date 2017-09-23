@@ -217,8 +217,10 @@ public class MainController {
         tasksAnchorPane.getChildren().clear();
         int distance = 10;
         for (Task t: alTasks) {
-            tasksAnchorPane.getChildren().add(new TaskComponent(t, distance));
-            distance += 10;
+            TaskComponent tc = new TaskComponent(t);
+            tc.setLayoutY(distance);
+            tasksAnchorPane.getChildren().add(tc);
+            distance += 20;
         }
     }
 
@@ -255,7 +257,8 @@ public class MainController {
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
-
+        tasksScrollPane.setFitToWidth(true);
+        
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(1.0);
         shadow.setOffsetX(1.0);

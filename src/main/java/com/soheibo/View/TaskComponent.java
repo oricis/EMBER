@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -30,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
  */
 public class TaskComponent extends AnchorPane {
 
-    public TaskComponent(Task task, int distance) {
+    public TaskComponent(Task task) {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/FXML/task.fxml"));
         try {
@@ -43,9 +42,8 @@ public class TaskComponent extends AnchorPane {
         
         taskComponentController.initTask(task);
         
-        //taskComponentController.initTask(task);
         AnchorPane.setLeftAnchor(this, 10.0);
         AnchorPane.setRightAnchor(this, 10.0);
-        AnchorPane.setTopAnchor(this, 10.0);
+        //AnchorPane.setTopAnchor(this, 10.0);
     }
 }
