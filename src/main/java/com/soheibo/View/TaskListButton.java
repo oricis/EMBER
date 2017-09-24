@@ -29,10 +29,24 @@ public class TaskListButton extends JFXButton {
     private TaskList taskList;
     
     public TaskListButton(TaskList taskList) {
+        this.taskList = taskList;
+        
         this.setText(taskList.getName());
         AnchorPane.setLeftAnchor(this, 17.0);
         AnchorPane.setRightAnchor(this, 17.0);
         this.setFont(new Font("Arial Bold", 12.0));
+        
+        this.getStyleClass().add("taskListBtn");
+    }
+    
+    public void isClicked(boolean clicked) {
+        if (clicked) {
+            this.getStyleClass().removeAll("taskListBtn");
+            this.getStyleClass().add("taskListBtnClicked");
+        } else {
+            this.getStyleClass().removeAll("taskListBtnClicked");
+            this.getStyleClass().add("taskListBtn");
+        }
     }
 
     //----------------GETTERS AND SETTERS--------------------------------------

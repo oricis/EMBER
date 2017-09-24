@@ -55,7 +55,7 @@ public class MainController {
     private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
     private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
     private double lastLayoutYLists = 0;
-    
+
     private final String DEFAULT_FILE_NAME = "tasks.bin";
 
     //GUI
@@ -85,9 +85,11 @@ public class MainController {
     private DataModel model;
     private Kryo kryo;
 
-    //Currently selected taskList
     private TaskListManager tlm;
+    //Currently selected taskList
     private TaskList currentTaskList;
+    private TaskListButton currentTaskListButton;
+    private ArrayList<TaskListButton> listOfTaskListBtns;
 
     public void initModel(DataModel model) {
         if (this.model != null) {
@@ -98,18 +100,20 @@ public class MainController {
         this.model = model;
         this.tlm = model.getTaskListManager();
         this.kryo = new Kryo();
-
+        this.listOfTaskListBtns = new ArrayList<>();
+        
         //Read from disk if possible
         if (new File(DEFAULT_FILE_NAME).isFile()) {
             loadFromDisk();
         }
-        
+
         graphicMods();
 
         addTaskViews();
         addTaskLists();
         addListeners();
-        currentTaskList = tlm.getCollectTaskList();
+        
+        setSelectedList(listOfTaskListBtns.get(0));
         updateContentPanel();
     }
 
@@ -125,7 +129,7 @@ public class MainController {
         });
         addSeparator();
     }
-    
+
     /**
      * Adds custom taskLists.
      */
@@ -196,9 +200,11 @@ public class MainController {
         lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
 
         newBtn.setOnAction((ActionEvent event) -> {
-            currentTaskList = taskList;
+            setSelectedList(newBtn);
             updateContentPanel();
         });
+        
+        listOfTaskListBtns.add(newBtn);
     }
 
     private void addSeparator() {
@@ -212,15 +218,19 @@ public class MainController {
     }
 
     private void updateContentPanel() {
-        titleTaskList.setText(currentTaskList.getName());
-        ArrayList<Task> alTasks = currentTaskList.getTskList();
-        tasksAnchorPane.getChildren().clear();
-        int distance = 10;
-        for (Task t: alTasks) {
-            TaskComponent tc = new TaskComponent(t);
-            tc.setLayoutY(distance);
-            tasksAnchorPane.getChildren().add(tc);
-            distance += 20;
+        if (currentTaskList != null) {
+            titleTaskList.setText(currentTaskList.getName());
+            ArrayList<Task> alTasks = currentTaskList.getTskList();
+            tasksAnchorPane.getChildren().clear();
+            int distance = 10;
+            for (Task t : alTasks) {
+                TaskComponent tc = new TaskComponent(t);
+                tc.setLayoutY(distance);
+                tasksAnchorPane.getChildren().add(tc);
+                distance += 20;
+            }
+        } else {
+            titleTaskList.setText("Blank");
         }
     }
 
@@ -252,13 +262,14 @@ public class MainController {
 //        }
 //        updateContentPanel();
 //    }
+    
     /**
      * Modifies the GUI.
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
         tasksScrollPane.setFitToWidth(true);
-        
+
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(1.0);
         shadow.setOffsetX(1.0);
@@ -295,7 +306,7 @@ public class MainController {
                     .log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void loadFromDisk() {
         Input input;
         try {
@@ -305,7 +316,21 @@ public class MainController {
             System.out.println("Reading complete.");
             input.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+    }
+    
+    private void setSelectedList(TaskListButton selectedTaskListButton) {
+        TaskListButton ancientSelection = this.currentTaskListButton;
+        if (ancientSelection != selectedTaskListButton) {
+            currentTaskListButton = selectedTaskListButton;
+            currentTaskList = selectedTaskListButton.getTaskList();
+            //GUI
+            if (ancientSelection != null) {
+                ancientSelection.isClicked(false);
+            }         
+            currentTaskListButton.isClicked(true);
+        }
     }
 }

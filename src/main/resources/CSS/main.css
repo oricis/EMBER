@@ -19,3 +19,17 @@ limitations under the License.
     -fx-background-color: transparent;
     -fx-background-insets: 0;
 }
+
+
+.taskListBtn {
+    -fx-background-color: transparent;
+}
+
+.taskListBtn:hover {
+    -fx-background-color: #dbdbdb;
+}
+
+.taskListBtnClicked {
+    -fx-background-color: #90EE90;
+}
+
