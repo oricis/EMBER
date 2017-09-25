@@ -17,7 +17,6 @@ package com.soheibo.Controller;
 
 import com.soheibo.Model.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
@@ -27,25 +26,24 @@ import javafx.scene.text.Text;
  * @author Soheib El-Harrache
  */
 public class TaskComponentController {
-    
+
     private Task task;
-    
+
     @FXML
     private Text taskText;
     @FXML
     private Button modifyButton;
     @FXML
     private Button deleteButton;
-    
-    
+
     public void initTask(Task task) {
         this.task = task;
         taskText.setText(task.getTitle());
         modifyButton.setOnAction((ActionEvent event) -> {
-            
+
         });
         deleteButton.setOnAction((ActionEvent event) -> {
-            
+
         });
     }
 }

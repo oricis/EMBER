@@ -54,6 +54,7 @@ public class MainController {
 
     private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
     private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
+    private final double DISTANCE_BETWEEN_TASKS = 50.0;
     private double lastLayoutYLists = 0;
 
     private final String DEFAULT_FILE_NAME = "tasks.bin";
@@ -203,7 +204,8 @@ public class MainController {
             setSelectedList(newBtn);
             updateContentPanel();
         });
-        
+        //TODO: complete
+        //newBtn.setContextMenu(value);
         listOfTaskListBtns.add(newBtn);
     }
 
@@ -222,12 +224,17 @@ public class MainController {
             titleTaskList.setText(currentTaskList.getName());
             ArrayList<Task> alTasks = currentTaskList.getTskList();
             tasksAnchorPane.getChildren().clear();
-            int distance = 10;
+            double distance = 10;
             for (Task t : alTasks) {
                 TaskComponent tc = new TaskComponent(t);
+                AnchorPane.setLeftAnchor(tc, 10.0);
+                AnchorPane.setRightAnchor(tc, 10.0);
+                
                 tc.setLayoutY(distance);
+                //Another way too
+                //AnchorPane.setTopAnchor(tc, distance);
                 tasksAnchorPane.getChildren().add(tc);
-                distance += 20;
+                distance += DISTANCE_BETWEEN_TASKS;
             }
         } else {
             titleTaskList.setText("Blank");
@@ -270,12 +277,12 @@ public class MainController {
         taskListsScrollPane.setFitToWidth(true);
         tasksScrollPane.setFitToWidth(true);
 
+        //Effect for the title
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(1.0);
         shadow.setOffsetX(1.0);
         shadow.setColor(Color.GRAY);
         titleTaskList.setEffect(shadow);
-
     }
 
     public void setStage(Stage stage) {

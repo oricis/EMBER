@@ -35,15 +35,16 @@ public class TaskComponent extends AnchorPane {
         try {
             fxmlLoader.load();
         } catch (IOException ex) {
-            Logger.getLogger(TaskComponent.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaskComponent.class.getName()).log(Level.SEVERE,
+                    null, ex);
         }      
         TaskComponentController taskComponentController
                 = (TaskComponentController) fxmlLoader.getController();
         
         taskComponentController.initTask(task);
         
-        AnchorPane.setLeftAnchor(this, 10.0);
-        AnchorPane.setRightAnchor(this, 10.0);
+        //AnchorPane.setLeftAnchor(this, 10.0);
+        //AnchorPane.setRightAnchor(this, 10.0);
         //AnchorPane.setTopAnchor(this, 10.0);
     }
 }
