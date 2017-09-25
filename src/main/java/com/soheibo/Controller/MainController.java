@@ -25,7 +25,6 @@ import com.soheibo.Model.TaskList;
 import com.soheibo.Model.TaskListManager;
 import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
-import com.soheibo.View.TaskComponent;
 import com.soheibo.View.TaskListButton;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,6 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
@@ -102,7 +103,7 @@ public class MainController {
         this.tlm = model.getTaskListManager();
         this.kryo = new Kryo();
         this.listOfTaskListBtns = new ArrayList<>();
-        
+
         //Read from disk if possible
         if (new File(DEFAULT_FILE_NAME).isFile()) {
             loadFromDisk();
@@ -113,7 +114,7 @@ public class MainController {
         addTaskViews();
         addTaskLists();
         addListeners();
-        
+
         setSelectedList(listOfTaskListBtns.get(0));
         updateContentPanel();
     }
@@ -225,16 +226,28 @@ public class MainController {
             ArrayList<Task> alTasks = currentTaskList.getTskList();
             tasksAnchorPane.getChildren().clear();
             double distance = 10;
-            for (Task t : alTasks) {
-                TaskComponent tc = new TaskComponent(t);
-                AnchorPane.setLeftAnchor(tc, 10.0);
-                AnchorPane.setRightAnchor(tc, 10.0);
-                
-                tc.setLayoutY(distance);
-                //Another way too
-                //AnchorPane.setTopAnchor(tc, distance);
-                tasksAnchorPane.getChildren().add(tc);
-                distance += DISTANCE_BETWEEN_TASKS;
+            for (Task t : alTasks) {          
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                            .getResource("/FXML/task.fxml")); 
+                    Parent tc = (Parent)fxmlLoader.load();  
+                    
+                    //Alignements
+                    AnchorPane.setLeftAnchor(tc, 10.0);
+                    AnchorPane.setRightAnchor(tc, 10.0);
+                    AnchorPane.setTopAnchor(tc, distance);
+                    
+                    //Set task
+                    TaskComponentController controller = 
+                            fxmlLoader.getController();
+                    controller.setTask(t);
+                    
+                    tasksAnchorPane.getChildren().add(tc);
+                    distance += DISTANCE_BETWEEN_TASKS;
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
             }
         } else {
             titleTaskList.setText("Blank");
@@ -269,7 +282,6 @@ public class MainController {
 //        }
 //        updateContentPanel();
 //    }
-    
     /**
      * Modifies the GUI.
      */
@@ -327,7 +339,7 @@ public class MainController {
                     null, ex);
         }
     }
-    
+
     private void setSelectedList(TaskListButton selectedTaskListButton) {
         TaskListButton ancientSelection = this.currentTaskListButton;
         if (ancientSelection != selectedTaskListButton) {
@@ -336,7 +348,7 @@ public class MainController {
             //GUI
             if (ancientSelection != null) {
                 ancientSelection.isClicked(false);
-            }         
+            }
             currentTaskListButton.isClicked(true);
         }
     }

@@ -16,8 +16,11 @@
 package com.soheibo.Controller;
 
 import com.soheibo.Model.Task;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
@@ -25,7 +28,7 @@ import javafx.scene.text.Text;
  *
  * @author Soheib El-Harrache
  */
-public class TaskComponentController {
+public class TaskComponentController implements Initializable {
 
     private Task task;
 
@@ -36,9 +39,13 @@ public class TaskComponentController {
     @FXML
     private Button deleteButton;
 
-    public void initTask(Task task) {
+    public void setTask(Task task) {
         this.task = task;
-        taskText.setText(task.getTitle());
+        taskText.setText(task.getTitle());    
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         modifyButton.setOnAction((ActionEvent event) -> {
 
         });
