@@ -100,6 +100,27 @@ public class Task {
         this.requiredTasks = requiredTasks;
         
     }
+    
+    /**
+     * Clones the value of a task given as a parameter.
+     * @param task Task used to get values for the copy.
+     */
+    public void clone(Task task) {
+        this.ID = task.getID();
+        this.title = task.getTitle();
+        this.description = task.getDescription();
+        this.creationDate = (Date) task.getCreationDate().clone();
+        this.limited = task.isLimited();
+        if (task.getEndDate() != null) {
+            this.endDate = (Date) task.getEndDate().clone();
+        } else {
+            this.endDate = null;
+        }
+        this.repetitive = task.isRepetitive();
+        this.numberTasks = task.getNumberTasks();
+        this.taskList = new ArrayList<>(task.getTaskList());
+        this.requiredTasks = new ArrayList<>(task.getRequiredTasks());
+    }
 
     //----------------GETTERS AND SETTERS--------------------------------------
     public int getID() {

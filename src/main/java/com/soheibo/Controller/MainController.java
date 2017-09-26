@@ -23,6 +23,7 @@ import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
 import com.soheibo.Model.TaskList;
 import com.soheibo.Model.TaskListManager;
+import com.soheibo.View.ModifyTaskWindow;
 import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
 import com.soheibo.View.TaskListButton;
@@ -226,22 +227,24 @@ public class MainController {
             ArrayList<Task> alTasks = currentTaskList.getTskList();
             tasksAnchorPane.getChildren().clear();
             double distance = 10;
-            for (Task t : alTasks) {          
+            for (Task t : alTasks) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                            .getResource("/FXML/task.fxml")); 
-                    Parent tc = (Parent)fxmlLoader.load();  
-                    
+                            .getResource("/FXML/task.fxml"));
+                    Parent tc = (Parent) fxmlLoader.load();
+
                     //Alignements
                     AnchorPane.setLeftAnchor(tc, 10.0);
                     AnchorPane.setRightAnchor(tc, 10.0);
                     AnchorPane.setTopAnchor(tc, distance);
-                    
+
                     //Set task
-                    TaskComponentController controller = 
-                            fxmlLoader.getController();
+                    TaskComponentController controller
+                            = fxmlLoader.getController();
                     controller.setTask(t);
-                    
+                    controller.setMainController(this);
+                    controller.addEvents();
+
                     tasksAnchorPane.getChildren().add(tc);
                     distance += DISTANCE_BETWEEN_TASKS;
                 } catch (IOException ex) {
@@ -254,40 +257,48 @@ public class MainController {
         }
     }
 
-//    private void modifySelectedTask() throws IOException {
-//        blurIn();
-//        Task oldTask = (Task) listView.getSelectionModel().getSelectedItem();
-//        if (oldTask != null) {
-//            NewTaskWindow ntWindow = new NewTaskWindow(false, oldTask);
-//            ntWindow.showAndWait();
-//            Task modifiedTask = ntWindow.getTask();
-//
-//            if (modifiedTask == null) {
-//                //Rejected
-//            } else {
-//                //Added
-//                listView.getItems().remove(oldTask);
-//                currentTaskList.removeTask(oldTask);
-//                listView.getItems().add(modifiedTask);
-//                currentTaskList.addTask(modifiedTask);
-//                listView.refresh();
-//            }
-//        }
-//        blurOut();
-//    }
-//    private void deleteSelectedTask() {
-//        Task task = (Task) listView.getSelectionModel().getSelectedItem();
-//        if (task != null) {
-//            currentTaskList.removeTask(task);
-//        }
-//        updateContentPanel();
-//    }
+    public void modifySelectedTask(Task oldTask) {
+        blurIn();
+
+        if (oldTask != null) {
+            ModifyTaskWindow mWindow;
+            try {
+                mWindow = new ModifyTaskWindow(oldTask);
+                mWindow.showAndWait();
+                Task modifiedTask = mWindow.getTask();
+
+                if (modifiedTask == null) {
+                    //Rejected
+                } else {
+                    //Accepted
+                    currentTaskList.modifyTask(oldTask, modifiedTask);
+                    updateContentPanel();
+                    saveOnDisk();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+        }
+        blurOut();
+    }
+
+    public void deleteTask(Task t) {
+        tlm.removeTaskFromList(t, currentTaskList);
+        updateContentPanel();
+        saveOnDisk();
+    }
+
     /**
      * Modifies the GUI.
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
         tasksScrollPane.setFitToWidth(true);
+
+        //Colors
+        tasksScrollPane.setStyle("-fx-background-color: transparent;");
+        tasksAnchorPane.setStyle("-fx-background-color: white;");
 
         //Effect for the title
         DropShadow shadow = new DropShadow();

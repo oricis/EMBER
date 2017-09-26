@@ -16,8 +16,11 @@
 package com.soheibo.Controller;
 
 import com.soheibo.Model.Task;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +34,7 @@ import javafx.scene.text.Text;
 public class TaskComponentController implements Initializable {
 
     private Task task;
+    private MainController mainController;
 
     @FXML
     private Text taskText;
@@ -41,16 +45,24 @@ public class TaskComponentController implements Initializable {
 
     public void setTask(Task task) {
         this.task = task;
-        taskText.setText(task.getTitle());    
+        taskText.setText(task.getTitle());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modifyButton.setOnAction((ActionEvent event) -> {
 
+    }
+
+    void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
+    void addEvents() {
+        modifyButton.setOnAction((ActionEvent event) -> {
+            mainController.modifySelectedTask(task);
         });
         deleteButton.setOnAction((ActionEvent event) -> {
-
+            mainController.deleteTask(task);
         });
     }
 }

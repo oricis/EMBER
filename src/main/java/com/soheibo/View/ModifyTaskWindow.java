@@ -15,14 +15,12 @@
  */
 package com.soheibo.View;
 
-import com.soheibo.Controller.NewTaskController;
+import com.soheibo.Controller.ModifyTaskController;
 import com.soheibo.Model.Task;
-import com.sun.prism.paint.Color;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,41 +29,39 @@ import javafx.stage.StageStyle;
  *
  * @author Soheib El-Harrache
  */
-public class NewTaskWindow extends Stage {
-
-    private NewTaskController taskController;
-    private boolean provideDetails;
+public class ModifyTaskWindow extends Stage {
+    
+    private ModifyTaskController taskController;
     private boolean wantsToAdd;
-
-    public NewTaskWindow(boolean provideDetails) throws IOException {
+    
+    public ModifyTaskWindow(Task oldTask)
+            throws IOException {
         super();
-        this.provideDetails = provideDetails;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/FXML/newTask.fxml"));
+                getClass().getResource("/fxml/modifyTask.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         taskController
-                = (NewTaskController) fxmlLoader.getController();
-        taskController.applyGUIMods();
+                = (ModifyTaskController) fxmlLoader.getController();
         
         Scene scene = new Scene(root);
-        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         setScene(scene);
-        setTitle("Add a task");
         setResizable(false);
         initStyle(StageStyle.TRANSPARENT);
-
-        this.wantsToAdd = false;
+        taskController.fillOldTaskInfos(oldTask);
+        
         //After pressing 'Enter', closes this window (which returns the value)
         scene.setOnKeyPressed((final KeyEvent keyEvent) -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
-                this.wantsToAdd = true;
-                this.close();
-            } else if (keyEvent.getCode() == KeyCode.ALT) {
-                //Using alt key since tab doesn't work
-                taskController.showDetails();
-            } else if (keyEvent.getCode() == KeyCode.ESCAPE) {
-                this.close();
+            if (null != keyEvent.getCode()) switch (keyEvent.getCode()) {
+                case ENTER:
+                    this.wantsToAdd = true;
+                    this.close();
+                    break;
+                case ESCAPE:
+                    this.close();
+                    break;
+                default:
+                    break;
             }
         });
 
