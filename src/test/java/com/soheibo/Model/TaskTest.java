@@ -15,6 +15,7 @@
  */
 package com.soheibo.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import org.junit.After;
@@ -107,7 +108,7 @@ public class TaskTest {
     public void testGetCreationDate() {
         Date closeToRightNow = new Date();
         Task task = new Task("To test dates");
-        long diffInMillies = task.getCreationDate().getTime()
+        long diffInMillies = task.getCreationDate().getNano()
                 - closeToRightNow.getTime();
         long errorMargin = 2000;
         assertTrue(diffInMillies < errorMargin);
@@ -129,7 +130,7 @@ public class TaskTest {
     @Test
     public void testGetEndDate() {
         Task task = new Task("With end date");
-        Date endDate = new Date();
+        LocalDateTime endDate = LocalDateTime.now();
         task.setEndDate(endDate);
 
         assertEquals(endDate, task.getEndDate());
@@ -138,7 +139,7 @@ public class TaskTest {
     @Test
     public void testSetEndDate() {
         Task task = new Task("With end date");
-        Date endDate = new Date();
+        LocalDateTime endDate = LocalDateTime.now();
         task.setEndDate(endDate);
 
         assertEquals(endDate, task.getEndDate());
@@ -234,7 +235,7 @@ public class TaskTest {
         String title = "Original Title";
         String description = "Long description here";
         boolean limited = false;
-        Date noEndDate = null;
+        LocalDateTime noEndDate = null;
         boolean repetitive = false;
         int numberOfTasks = 2;
         ArrayList<Task> list = new ArrayList<>();

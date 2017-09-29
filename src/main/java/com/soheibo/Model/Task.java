@@ -15,6 +15,7 @@
  */
 package com.soheibo.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,9 +32,9 @@ public class Task {
     private String title;
     private String description;
 
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private boolean limited;
-    private Date endDate;
+    private LocalDateTime endDate;
 
     private boolean repetitive;
 
@@ -48,7 +49,7 @@ public class Task {
         this.description = "";
         this.limited = false;
         
-        this.creationDate = new Date();
+        this.creationDate = LocalDateTime.now();
         this.repetitive = false;
         
         this.taskList = new ArrayList();
@@ -67,7 +68,7 @@ public class Task {
         this.description = "";
         this.limited = false;
         
-        this.creationDate = new Date();
+        this.creationDate = LocalDateTime.now();
         this.repetitive = false;
         
         this.taskList = new ArrayList();
@@ -86,12 +87,12 @@ public class Task {
      * @param requiredTasks 
      */
     public Task(String title, String description,
-            boolean limited, Date endDate, boolean repetitive, int numberTasks,
+            boolean limited, LocalDateTime endDate, boolean repetitive, int numberTasks,
             ArrayList<Task> taskList, ArrayList<Task> requiredTasks) {
         this.ID = currentIDcount.incrementAndGet();
         this.title = title;
         this.description = description;
-        this.creationDate = new Date();
+        this.creationDate = LocalDateTime.now();
         this.limited = limited;
         this.endDate = endDate;
         this.repetitive = repetitive;
@@ -109,10 +110,10 @@ public class Task {
         this.ID = task.getID();
         this.title = task.getTitle();
         this.description = task.getDescription();
-        this.creationDate = (Date) task.getCreationDate().clone();
+        this.creationDate = (LocalDateTime) task.getCreationDate();
         this.limited = task.isLimited();
         if (task.getEndDate() != null) {
-            this.endDate = (Date) task.getEndDate().clone();
+            this.endDate = (LocalDateTime) task.getEndDate();
         } else {
             this.endDate = null;
         }
@@ -148,7 +149,7 @@ public class Task {
         this.description = description;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
     
@@ -165,11 +166,11 @@ public class Task {
         this.limited = limited;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

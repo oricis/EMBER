@@ -15,6 +15,7 @@
  */
 package com.soheibo.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -28,18 +29,20 @@ public class TaskListManager {
     private final TaskList collectTaskList;
     private final ArrayList<TaskList> basicViews;
 
+    private final int UPCOMING_DAYS_DISTANCE = 5;
+
     /**
-     * Default TaskListManager has normally a "Collect", a "Today", 
-     * an "Upcoming", a "Anytime" and a "Future" list.
+     * Default TaskListManager has normally a "Collect", a "Today", an
+     * "Upcoming", a "Anytime" and a "Future" list.
      */
     public TaskListManager() {
         this.mainTaskLists = new ArrayList();
         this.collectTaskList = new TaskList("Collect", true);
         this.basicViews = new ArrayList();
-        this.basicViews.add(new TaskList("Today", true)); 
+        this.basicViews.add(new TaskList("Today", true));
         this.basicViews.add(new TaskList("Upcoming", true));
         this.basicViews.add(new TaskList("Anytime", true));
-        this.basicViews.add(new TaskList("Future", true));             
+        this.basicViews.add(new TaskList("Future", true));
     }
 
     /**
@@ -74,12 +77,98 @@ public class TaskListManager {
     public void removeTaskList(TaskList taskList) {
         mainTaskLists.remove(taskList);
     }
-    
+
     public void removeTaskFromList(Task task, TaskList taskList) {
         //TODO: add triggers or mechanism to future plannings
         taskList.removeTask(task);
     }
-    
+
+    public ArrayList<Task> getViewTodayTasks() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        int todayDate = nowDate.getDayOfYear();
+        ArrayList<Task> todayTasks = new ArrayList<>();
+
+        for (TaskList tskList : mainTaskLists) {
+            ArrayList<Task> tasks = tskList.getTskList();
+            for (Task t : tasks) {
+                if (t.getEndDate() != null) {
+                    if (t.getEndDate().getDayOfYear() == todayDate) {
+                        todayTasks.add(t);
+                    }
+                }
+            }
+        }
+        return todayTasks;
+    }
+
+    public ArrayList<Task> getViewTomorrowTasks() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        int tomorrowDate = nowDate.getDayOfYear() + 1;
+        ArrayList<Task> tomorrowTasks = new ArrayList<>();
+
+        for (TaskList tskList : mainTaskLists) {
+            ArrayList<Task> tasks = tskList.getTskList();
+            for (Task t : tasks) {
+                if (t.getEndDate() != null) {
+                    if (t.getEndDate().getDayOfYear() == tomorrowDate) {
+                        tomorrowTasks.add(t);
+                    }
+                }
+            }
+        }
+        return tomorrowTasks;
+    }
+
+    public ArrayList<Task> getViewUpcomingTasks() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        int maxUpcomingDate = nowDate.getDayOfYear() + UPCOMING_DAYS_DISTANCE;
+        ArrayList<Task> upcomingTasks = new ArrayList<>();
+
+        for (TaskList tskList : mainTaskLists) {
+            ArrayList<Task> tasks = tskList.getTskList();
+            for (Task t : tasks) {
+                if (t.getEndDate() != null) {
+                    if (t.getEndDate().getDayOfYear() <= maxUpcomingDate) {
+                        upcomingTasks.add(t);
+                    }
+                }
+            }
+        }
+        return upcomingTasks;
+    }
+
+    public ArrayList<Task> getViewFutureTasks() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        int minFutureDate = nowDate.getDayOfYear() + UPCOMING_DAYS_DISTANCE;
+        ArrayList<Task> futureTasks = new ArrayList<>();
+
+        for (TaskList tskList : mainTaskLists) {
+            ArrayList<Task> tasks = tskList.getTskList();
+            for (Task t : tasks) {
+                if (t.getEndDate() != null) {
+                    if (t.getEndDate().getDayOfYear() > minFutureDate) {
+                        futureTasks.add(t);
+                    }
+                }
+            }
+        }
+        return futureTasks;
+    }
+
+    public ArrayList<Task> getViewAnytimeTasks() {
+        ArrayList<Task> anytimeTasks = new ArrayList<>();
+
+        for (TaskList tskList : mainTaskLists) {
+            ArrayList<Task> tasks = tskList.getTskList();
+            for (Task t : tasks) {
+                if (t.getEndDate() == null) {
+                    anytimeTasks.add(t);
+                }
+            }
+        }
+        return anytimeTasks;
+    }
+
     //----------------GETTERS AND SETTERS--------------------------------------
     public TaskList getCollectTaskList() {
         return collectTaskList;

@@ -37,7 +37,7 @@
                               <Font size="14.0" />
                           </font>
                       </Label>
-                      <JFXTimePicker layoutX="200.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
+                      <JFXTimePicker fx:id="timePicker" layoutX="200.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
                       <Label layoutX="200.0" layoutY="140.0" text="End time :">
                           <font>
                               <Font size="14.0" />
@@ -45,7 +45,7 @@
                       </Label>
                       <JFXColorPicker layoutX="19.0" layoutY="235.0" prefHeight="25.0" prefWidth="128.0" />
                       <JFXComboBox layoutX="203.0" layoutY="235.0" prefHeight="25.0" prefWidth="128.0" />
-                      <JFXDatePicker layoutX="15.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
+                      <JFXDatePicker fx:id="datePicker" layoutX="15.0" layoutY="160.0" prefHeight="25.0" prefWidth="128.0" />
                       <Label layoutX="15.0" layoutY="200.0" text="Color :">
                           <font>
                               <Font size="14.0" />

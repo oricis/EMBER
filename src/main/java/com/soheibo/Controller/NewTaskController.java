@@ -15,8 +15,13 @@
  */
 package com.soheibo.Controller;
 
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import com.soheibo.Model.Task;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,10 +37,26 @@ public class NewTaskController {
     @FXML
     AnchorPane taskDetailsAnchorPane;
 
+    @FXML
+    JFXTimePicker timePicker;
+    
+    @FXML
+    JFXDatePicker datePicker;
+    
     public Task getTask() {
         //Verifications
         if (!nameFieldNewTask.getText().equals("")) {
-            return new Task(nameFieldNewTask.getText());
+            Task newTask = new Task(nameFieldNewTask.getText());
+            
+            if (datePicker.getValue() != null) {
+                LocalDate date = datePicker.getValue();
+                LocalTime mockTime = LocalTime.MIN;
+                LocalDateTime dateTime = LocalDateTime.of(date, mockTime);
+                newTask.setEndDate(dateTime);
+                System.out.println("New end date");
+            }
+            
+            return newTask;
         } else {
             return null;
         }

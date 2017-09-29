@@ -125,12 +125,46 @@ public class MainController {
      */
     private void addTaskViews() {
 
-        addTaskListButton(tlm.getCollectTaskList());
+        addTaskListButton(tlm.getCollectTaskList(), false);
         addSeparator();
         tlm.getBasicViews().forEach((taskList) -> {
-            addTaskListButton(taskList);
+            addTaskListButton(taskList, true);
         });
         addSeparator();
+        
+        //Today
+        listOfTaskListBtns.get(1).setOnAction((ActionEvent event) -> {
+            addButton.setVisible(false);
+            setSelectedList(listOfTaskListBtns.get(1));
+            listOfTaskListBtns.get(1).getTaskList()
+                    .setTskList(tlm.getViewTodayTasks());
+            updateContentPanel();
+            System.out.println("Today");
+        });
+        //Upcoming
+        listOfTaskListBtns.get(2).setOnAction((ActionEvent event) -> {
+            addButton.setVisible(false);
+            setSelectedList(listOfTaskListBtns.get(2));
+            listOfTaskListBtns.get(2).getTaskList()
+                    .setTskList(tlm.getViewUpcomingTasks());
+            updateContentPanel();
+        });
+        //Anytime       
+        listOfTaskListBtns.get(3).setOnAction((ActionEvent event) -> {
+            addButton.setVisible(false);
+            setSelectedList(listOfTaskListBtns.get(3));
+            listOfTaskListBtns.get(3).getTaskList()
+                    .setTskList(tlm.getViewAnytimeTasks());
+            updateContentPanel();
+        });
+        //Future
+        listOfTaskListBtns.get(4).setOnAction((ActionEvent event) -> {
+            addButton.setVisible(false);
+            setSelectedList(listOfTaskListBtns.get(4));
+            listOfTaskListBtns.get(4).getTaskList()
+                    .setTskList(tlm.getViewFutureTasks());
+            updateContentPanel();
+        });
     }
 
     /**
@@ -138,7 +172,7 @@ public class MainController {
      */
     private void addTaskLists() {
         tlm.getMainTaskLists().forEach((taskList) -> {
-            addTaskListButton(taskList);
+            addTaskListButton(taskList, false);
         });
     }
 
@@ -188,12 +222,13 @@ public class MainController {
         } else {
             //Added
             tlm.addTaskList(taskList);
-            addTaskListButton(taskList);
+            addTaskListButton(taskList, false);
             saveOnDisk();
         }
     }
 
-    private void addTaskListButton(TaskList taskList) {
+    private void addTaskListButton(TaskList taskList,
+            boolean isViewRestricted) {
         //Graphic
         TaskListButton newBtn = new TaskListButton(taskList);
         newBtn.setLayoutX(14.0);
@@ -203,6 +238,11 @@ public class MainController {
         lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
 
         newBtn.setOnAction((ActionEvent event) -> {
+            if (isViewRestricted) {
+                addButton.setVisible(false);
+            } else {
+                addButton.setVisible(true);
+            }
             setSelectedList(newBtn);
             updateContentPanel();
         });
