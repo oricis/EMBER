@@ -23,6 +23,7 @@ import com.soheibo.Model.DataModel;
 import com.soheibo.Model.Task;
 import com.soheibo.Model.TaskList;
 import com.soheibo.Model.TaskListManager;
+import com.soheibo.View.ModifyTaskListWindow;
 import com.soheibo.View.ModifyTaskWindow;
 import com.soheibo.View.NewTaskListWindow;
 import com.soheibo.View.NewTaskWindow;
@@ -39,6 +40,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
@@ -112,11 +115,10 @@ public class MainController {
 
         graphicMods();
 
-        addTaskViews();
-        addTaskLists();
         addListeners();
+        updateTaskListsPanel();       
 
-        setSelectedList(listOfTaskListBtns.get(0));
+        setSelectedListButton(listOfTaskListBtns.get(0));
         updateContentPanel();
     }
 
@@ -125,17 +127,17 @@ public class MainController {
      */
     private void addTaskViews() {
 
-        addTaskListButton(tlm.getCollectTaskList(), false);
+        addTaskListButton(tlm.getCollectTaskList(), false, false);
         addSeparator();
         tlm.getBasicViews().forEach((taskList) -> {
-            addTaskListButton(taskList, true);
+            addTaskListButton(taskList, true, false);
         });
         addSeparator();
-        
+
         //Today
         listOfTaskListBtns.get(1).setOnAction((ActionEvent event) -> {
             addButton.setVisible(false);
-            setSelectedList(listOfTaskListBtns.get(1));
+            setSelectedListButton(listOfTaskListBtns.get(1));
             listOfTaskListBtns.get(1).getTaskList()
                     .setTskList(tlm.getViewTodayTasks());
             updateContentPanel();
@@ -144,7 +146,7 @@ public class MainController {
         //Upcoming
         listOfTaskListBtns.get(2).setOnAction((ActionEvent event) -> {
             addButton.setVisible(false);
-            setSelectedList(listOfTaskListBtns.get(2));
+            setSelectedListButton(listOfTaskListBtns.get(2));
             listOfTaskListBtns.get(2).getTaskList()
                     .setTskList(tlm.getViewUpcomingTasks());
             updateContentPanel();
@@ -152,7 +154,7 @@ public class MainController {
         //Anytime       
         listOfTaskListBtns.get(3).setOnAction((ActionEvent event) -> {
             addButton.setVisible(false);
-            setSelectedList(listOfTaskListBtns.get(3));
+            setSelectedListButton(listOfTaskListBtns.get(3));
             listOfTaskListBtns.get(3).getTaskList()
                     .setTskList(tlm.getViewAnytimeTasks());
             updateContentPanel();
@@ -160,7 +162,7 @@ public class MainController {
         //Future
         listOfTaskListBtns.get(4).setOnAction((ActionEvent event) -> {
             addButton.setVisible(false);
-            setSelectedList(listOfTaskListBtns.get(4));
+            setSelectedListButton(listOfTaskListBtns.get(4));
             listOfTaskListBtns.get(4).getTaskList()
                     .setTskList(tlm.getViewFutureTasks());
             updateContentPanel();
@@ -172,7 +174,7 @@ public class MainController {
      */
     private void addTaskLists() {
         tlm.getMainTaskLists().forEach((taskList) -> {
-            addTaskListButton(taskList, false);
+            addTaskListButton(taskList, false, true);
         });
     }
 
@@ -222,13 +224,13 @@ public class MainController {
         } else {
             //Added
             tlm.addTaskList(taskList);
-            addTaskListButton(taskList, false);
+            addTaskListButton(taskList, false, true);
             saveOnDisk();
         }
     }
 
     private void addTaskListButton(TaskList taskList,
-            boolean isViewRestricted) {
+            boolean viewRestricted, boolean canBeModified) {
         //Graphic
         TaskListButton newBtn = new TaskListButton(taskList);
         newBtn.setLayoutX(14.0);
@@ -238,17 +240,38 @@ public class MainController {
         lastLayoutYLists += DISTANCE_BETWEEN_LISTS_BTNS;
 
         newBtn.setOnAction((ActionEvent event) -> {
-            if (isViewRestricted) {
+            if (viewRestricted) {
                 addButton.setVisible(false);
             } else {
                 addButton.setVisible(true);
             }
-            setSelectedList(newBtn);
+            setSelectedListButton(newBtn);
             updateContentPanel();
         });
-        //TODO: complete
-        //newBtn.setContextMenu(value);
+
+        if (canBeModified) {
+            //Context Menu
+            newBtn.setContextMenu(createTaskListContextMenu(newBtn));
+        }
+
         listOfTaskListBtns.add(newBtn);
+    }
+
+    private ContextMenu createTaskListContextMenu(TaskListButton btn) {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem itemModify = new MenuItem("Modify");
+        itemModify.setOnAction((ActionEvent e) -> {
+            modifyTaskList(btn);
+        });
+        
+        MenuItem itemDelete = new MenuItem("Delete");
+        itemDelete.setOnAction((ActionEvent e) -> {
+            deleteTaskList(btn.getTaskList());
+        });
+        
+        contextMenu.getItems().addAll(itemModify, itemDelete);
+        return contextMenu;
     }
 
     private void addSeparator() {
@@ -328,6 +351,52 @@ public class MainController {
         updateContentPanel();
         saveOnDisk();
     }
+    
+    public void modifyTaskList(TaskListButton tlb) {       
+        TaskList oldTaskList = tlb.getTaskList();
+        System.out.println(oldTaskList.getName());
+        blurIn();
+
+        if (oldTaskList != null) {
+            ModifyTaskListWindow mlWindow;
+            try {
+                mlWindow = new ModifyTaskListWindow(oldTaskList);
+                mlWindow.showAndWait();
+                TaskList modifiedTaskList = mlWindow.getTaskList();
+
+                if (modifiedTaskList == null) {
+                    //Rejected
+                } else {
+                    //Accepted
+                    tlb.setTaskList(modifiedTaskList);
+                    updateTaskListsPanel();
+                    updateContentPanel();
+                    saveOnDisk();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+        }
+        blurOut();
+    }
+    
+    public void deleteTaskList(TaskList tl) {
+        tlm.removeTaskList(tl);
+        updateTaskListsPanel();       
+        
+        setSelectedListButton(listOfTaskListBtns.get(0));
+        updateContentPanel();
+        saveOnDisk();
+    }
+    
+    public void updateTaskListsPanel() {
+        lastLayoutYLists = 0;
+        
+        taskListsAnchorPane.getChildren().clear();
+        addTaskViews();
+        addTaskLists();      
+    }
 
     /**
      * Modifies the GUI.
@@ -391,7 +460,7 @@ public class MainController {
         }
     }
 
-    private void setSelectedList(TaskListButton selectedTaskListButton) {
+    private void setSelectedListButton(TaskListButton selectedTaskListButton) {
         TaskListButton ancientSelection = this.currentTaskListButton;
         if (ancientSelection != selectedTaskListButton) {
             currentTaskListButton = selectedTaskListButton;

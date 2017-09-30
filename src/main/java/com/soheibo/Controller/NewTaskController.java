@@ -53,7 +53,6 @@ public class NewTaskController {
                 LocalTime mockTime = LocalTime.MIN;
                 LocalDateTime dateTime = LocalDateTime.of(date, mockTime);
                 newTask.setEndDate(dateTime);
-                System.out.println("New end date");
             }
             
             return newTask;
