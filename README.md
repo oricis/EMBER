@@ -8,7 +8,7 @@ crafted interface.
 But how is it different from other great todo-lists manager?
 
 * First, it's free and open source.
-* Secondly, it's going to be cross-platform and portable so you can use it on MacOS, Windows, Linux, etc. It's written in Java.
+* Secondly, it's cross-platform and portable so you can use it on MacOS, Windows, Linux, etc. It's written in Java.
 * Thirdly, it's a desktop software, not a terminal or web-based app. This is my main target. Android and IOS support later.
 
 And finally, I will try to add some unique functionalities like a personal assistant, custom animations, a focus on student tasks, etc.
@@ -30,11 +30,11 @@ My personal goal is to try making the *de facto* free, open-source and portable 
 - [x] Basic Interface
 - [x] Add and remove tasks
 - [x] Add lists
-- [ ] Remove lists
-- [ ] Modify tasks
-- [ ] Modify lists
-- [ ] Add complexity to tasks
-- [ ] Save/Retrieve tasks from File
+- [x] Remove lists
+- [x] Modify tasks
+- [x] Modify lists
+- [x] Add complexity to tasks
+- [x] Save/Retrieve tasks from File
 - [ ] Add a calendar
 - [ ] Launch notifications at the right time
 - [ ] Create a portable installer (using IzPack)
@@ -46,7 +46,7 @@ My personal goal is to try making the *de facto* free, open-source and portable 
 And finally, with a lot of work: A personal assistant.
 
 ### Still designing:
-![Ember Sprint 2 Screenshot](https://user-images.githubusercontent.com/19310562/30243462-fcce8dba-9577-11e7-8b96-73538e7e22cb.PNG)
+![Ember project demo](https://user-images.githubusercontent.com/19310562/31048357-4a9d4a5a-a5e9-11e7-9ad1-e8d17cf4bc1f.gif)
 
 ## Build
 

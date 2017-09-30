@@ -141,7 +141,6 @@ public class MainController {
             listOfTaskListBtns.get(1).getTaskList()
                     .setTskList(tlm.getViewTodayTasks());
             updateContentPanel();
-            System.out.println("Today");
         });
         //Upcoming
         listOfTaskListBtns.get(2).setOnAction((ActionEvent event) -> {
