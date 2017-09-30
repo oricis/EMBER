@@ -354,7 +354,6 @@ public class MainController {
     
     public void modifyTaskList(TaskListButton tlb) {       
         TaskList oldTaskList = tlb.getTaskList();
-        System.out.println(oldTaskList.getName());
         blurIn();
 
         if (oldTaskList != null) {
@@ -457,6 +456,11 @@ public class MainController {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE,
                     null, ex);
+        } catch (Exception ex) {
+            System.out.println("Reading tasks file incomplete.");           
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE,
+                    null, ex);
+            System.exit(1);
         }
     }
 

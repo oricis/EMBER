@@ -17,7 +17,6 @@ package com.soheibo.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -31,8 +30,10 @@ public class Task {
     private int ID;
     private String title;
     private String description;
-
+    private boolean done;
+    
     private LocalDateTime creationDate;
+    private LocalDateTime lastModifiedDate;
     private boolean limited;
     private LocalDateTime endDate;
 
@@ -42,22 +43,27 @@ public class Task {
     private ArrayList<Task> taskList;
     private ArrayList<Task> requiredTasks;
 
-    
+    /**
+     * Basic constructor.
+     */
     public Task() {
         this.ID = currentIDcount.incrementAndGet();
         this.title = "";
         this.description = "";
+        this.done = false;
         this.limited = false;
         
         this.creationDate = LocalDateTime.now();
+        this.lastModifiedDate = null;
         this.repetitive = false;
+        this.endDate = null;
         
         this.taskList = new ArrayList();
         this.requiredTasks = new ArrayList();
     }
     
     /**
-     * Create a new task with a title. By default,
+     * Creates a new task with a title. By default,
      * it's not repetitive.
 
      * @param title 
@@ -66,10 +72,13 @@ public class Task {
         this.ID = currentIDcount.incrementAndGet();
         this.title = title;
         this.description = "";
+        this.done = false;
         this.limited = false;
         
         this.creationDate = LocalDateTime.now();
+        this.lastModifiedDate = null;
         this.repetitive = false;
+        this.endDate = null;
         
         this.taskList = new ArrayList();
         this.requiredTasks = new ArrayList();
@@ -87,12 +96,15 @@ public class Task {
      * @param requiredTasks 
      */
     public Task(String title, String description,
-            boolean limited, LocalDateTime endDate, boolean repetitive, int numberTasks,
+            boolean limited, LocalDateTime endDate, boolean repetitive,
+            int numberTasks,
             ArrayList<Task> taskList, ArrayList<Task> requiredTasks) {
         this.ID = currentIDcount.incrementAndGet();
         this.title = title;
         this.description = description;
+        this.done = false;
         this.creationDate = LocalDateTime.now();
+        this.lastModifiedDate = null;
         this.limited = limited;
         this.endDate = endDate;
         this.repetitive = repetitive;
@@ -110,7 +122,9 @@ public class Task {
         this.ID = task.getID();
         this.title = task.getTitle();
         this.description = task.getDescription();
+        this.done = task.isDone();
         this.creationDate = (LocalDateTime) task.getCreationDate();
+        this.creationDate = (LocalDateTime) task.getLastModifiedDate();
         this.limited = task.isLimited();
         if (task.getEndDate() != null) {
             this.endDate = (LocalDateTime) task.getEndDate();
@@ -149,6 +163,14 @@ public class Task {
         this.description = description;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
@@ -158,6 +180,14 @@ public class Task {
 //        this.creationDate = creationDate;
 //    }
 
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+    
     public boolean isLimited() {
         return limited;
     }

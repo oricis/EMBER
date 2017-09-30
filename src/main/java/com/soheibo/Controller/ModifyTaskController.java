@@ -17,6 +17,7 @@ package com.soheibo.Controller;
 
 import com.jfoenix.controls.JFXTextField;
 import com.soheibo.Model.Task;
+import java.time.LocalDateTime;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
@@ -31,16 +32,21 @@ public class ModifyTaskController {
     @FXML
     AnchorPane taskDetailsAnchorPane;
 
+    Task task;
+    
     public Task getTask() {
         //Verifications
         if (!nameFieldNewTask.getText().equals("")) {
-            return new Task(nameFieldNewTask.getText());
+            task.setTitle(nameFieldNewTask.getText());
+            task.setLastModifiedDate(LocalDateTime.now());
+            return task;
         } else {
             return null;
         }
     }
 
     public void fillOldTaskInfos(Task oldTask) {
+        task = oldTask;
         taskDetailsAnchorPane.setVisible(true);
         nameFieldNewTask.setText(oldTask.getTitle());
     }

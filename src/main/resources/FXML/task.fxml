@@ -8,8 +8,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.soheibo.Controller.TaskComponentController">
    <children>
-      <JFXCheckBox layoutX="118.0" layoutY="17.0" text="Done" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="17.0" />
-      <Text fx:id="taskText" layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.05078125" />
+      <JFXCheckBox layoutX="14.0" layoutY="17.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.0" />
+      <Text fx:id="taskText" layoutX="46.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="17.0" />
       <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="250.0" layoutY="13.0" style="-fx-background-color: red;" text="" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
          <graphic>
             <FontAwesomeIconView glyphName="BITBUCKET" />
