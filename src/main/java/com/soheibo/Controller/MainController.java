@@ -307,6 +307,8 @@ public class MainController {
                     controller.setMainController(this);
                     controller.addEvents();
 
+                    //Saves performance
+                    tc.setCache(true);
                     tasksAnchorPane.getChildren().add(tc);
                     distance += DISTANCE_BETWEEN_TASKS;
                 } catch (IOException ex) {
