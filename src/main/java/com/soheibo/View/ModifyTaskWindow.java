@@ -26,7 +26,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
+ * View used to modify tasks.
+ * 
  * @author Soheib El-Harrache
  */
 public class ModifyTaskWindow extends Stage {
@@ -34,6 +35,11 @@ public class ModifyTaskWindow extends Stage {
     private ModifyTaskController taskController;
     private boolean wantsToAdd;
     
+    /**
+     * Builds the window and add events.
+     * @param oldTask Task to use.
+     * @throws IOException 
+     */
     public ModifyTaskWindow(Task oldTask)
             throws IOException {
         super();
@@ -73,6 +79,10 @@ public class ModifyTaskWindow extends Stage {
         });
     }
 
+    /**
+     * Returns a task from the controller if the condition is met.
+     * @return Task from the controller.
+     */
     public Task getTask() {
         if (this.wantsToAdd) {
             return taskController.getTask();

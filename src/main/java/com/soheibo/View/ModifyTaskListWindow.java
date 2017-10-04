@@ -18,7 +18,6 @@ package com.soheibo.View;
 import com.soheibo.Controller.ModifyTaskListController;
 import com.soheibo.Model.TaskList;
 import java.io.IOException;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,7 +27,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
+ * View used to modify task lists.
+ * 
  * @author Soheib El-Harrache
  */
 public class ModifyTaskListWindow extends Stage {
@@ -36,6 +36,11 @@ public class ModifyTaskListWindow extends Stage {
     private ModifyTaskListController taskListController;
     private boolean wantsToAdd;
     
+    /**
+     * Builds the window and add events.
+     * @param oldTaskList Task list to use.
+     * @throws IOException 
+     */
     public ModifyTaskListWindow(TaskList oldTaskList)
             throws IOException {
         super();
@@ -77,6 +82,10 @@ public class ModifyTaskListWindow extends Stage {
         });
     }
 
+    /**
+     * Returns a task list from the controller if the condition is met.
+     * @return Task list from the controller.
+     */
     public TaskList getTaskList() {
         if (this.wantsToAdd) {
             return taskListController.getModifiedTaskList();

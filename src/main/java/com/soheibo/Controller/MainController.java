@@ -52,7 +52,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- *
+ * Main controller used to link the model and views.
+ * 
  * @author Soheib El-Harrache
  */
 public class MainController {
@@ -60,10 +61,14 @@ public class MainController {
     private final double DISTANCE_BETWEEN_LISTS_BTNS = 25.0;
     private final double DISTANCE_BETWEEN_SEPARATOR = 30.0;
     private final double DISTANCE_BETWEEN_TASKS = 50.0;
-    private double lastLayoutYLists = 0;
 
+    private final int BLUR_INTENSITY = 10;
+    
     private final String DEFAULT_FILE_NAME = "tasks.bin";
 
+    //Used to vertically align lists and separators
+    private double lastLayoutYLists = 0;
+    
     //GUI
     @FXML
     private AnchorPane leftMainAnchorPane;
@@ -97,6 +102,11 @@ public class MainController {
     private TaskListButton currentTaskListButton;
     private ArrayList<TaskListButton> listOfTaskListBtns;
 
+    /**
+     * Initiliazes the model and builds the interface. Can only be done when 
+     * the model is null.
+     * @param model Model to be used to initialiaze.
+     */
     public void initModel(DataModel model) {
         if (this.model != null) {
             throw new IllegalStateException(
@@ -123,7 +133,7 @@ public class MainController {
     }
 
     /**
-     * Adds the necessary taskLists (called taskViews).
+     * Adds the necessary task lists (called task views).
      */
     private void addTaskViews() {
 
@@ -169,7 +179,7 @@ public class MainController {
     }
 
     /**
-     * Adds custom taskLists.
+     * Adds lists of tasks created by the user.
      */
     private void addTaskLists() {
         tlm.getMainTaskLists().forEach((taskList) -> {
@@ -177,6 +187,9 @@ public class MainController {
         });
     }
 
+    /**
+     * Adds listeners on interface buttons.
+     */
     private void addListeners() {
         addButton.setOnAction((ActionEvent event) -> {
             try {
@@ -196,9 +209,14 @@ public class MainController {
         });
     }
 
+    /**
+     * Shows a dialog to add a task and treats the input.
+     * Updates visually and saves on disk.
+     * @throws IOException 
+     */
     private void addNewTask() throws IOException {
         blurIn();
-        NewTaskWindow ntWindow = new NewTaskWindow(false);
+        NewTaskWindow ntWindow = new NewTaskWindow();
         ntWindow.showAndWait();
         blurOut();
         Task task = ntWindow.getTask();
@@ -212,6 +230,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Shows a dialog to add a list of tasks and treats the input.
+     * Updates visually and saves on disk.
+     * @throws IOException 
+     */
     private void addNewTaskList() throws IOException {
         blurIn();
         NewTaskListWindow ntlWindow = new NewTaskListWindow();
@@ -228,6 +251,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Adds a task list button on the left panel as the next element.
+     * @param taskList Task list associated with the button.
+     * @param viewRestricted If true, cannot manually add tasks to the list.
+     * @param canBeModified If true, has a context menu to modify and delete.
+     */
     private void addTaskListButton(TaskList taskList,
             boolean viewRestricted, boolean canBeModified) {
         //Graphic
@@ -256,6 +285,12 @@ public class MainController {
         listOfTaskListBtns.add(newBtn);
     }
 
+    /**
+     * Creates and returns a context menu for task lists and adds events
+     * referencing the button passed as parameter.
+     * @param btn The button used as reference for events.
+     * @return Context menu created.
+     */
     private ContextMenu createTaskListContextMenu(TaskListButton btn) {
         ContextMenu contextMenu = new ContextMenu();
 
@@ -273,6 +308,9 @@ public class MainController {
         return contextMenu;
     }
 
+    /**
+     * Adds a separator on the list of tasks as the next element.
+     */
     private void addSeparator() {
         Separator separator = new Separator();
         AnchorPane.setLeftAnchor(separator, 17.0);
@@ -283,6 +321,11 @@ public class MainController {
         lastLayoutYLists += 15;
     }
 
+    /**
+     * Updates content on right panel by loading tasks and changing
+     * the title.
+     * TODO: Improve loading performance.
+     */
     private void updateContentPanel() {
         if (currentTaskList != null) {
             titleTaskList.setText(currentTaskList.getName());
@@ -321,6 +364,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Shows a dialog to modify a task and treats the input.
+     * Updates visually and saves on disk.
+     * @param oldTask The old task to modify.
+     */
     public void modifySelectedTask(Task oldTask) {
         blurIn();
 
@@ -347,12 +395,22 @@ public class MainController {
         blurOut();
     }
 
+    /**
+     * Deletes a task from model, updates visual appearance and
+     * saves on disk.
+     * @param t 
+     */
     public void deleteTask(Task t) {
         tlm.removeTaskFromList(t, currentTaskList);
         updateContentPanel();
         saveOnDisk();
     }
     
+    /**
+     * Shows a dialog to modify the list of tasks and treats the input.
+     * Updates visually and saves on disk.
+     * @param tlb The button used to modify the list.
+     */
     public void modifyTaskList(TaskListButton tlb) {       
         TaskList oldTaskList = tlb.getTaskList();
         blurIn();
@@ -381,6 +439,11 @@ public class MainController {
         blurOut();
     }
     
+    /**
+     * Deletes a task lists from model, updates visual appearance and
+     * saves on disk.
+     * @param tl The task list to delete.
+     */
     public void deleteTaskList(TaskList tl) {
         tlm.removeTaskList(tl);
         updateTaskListsPanel();       
@@ -390,6 +453,9 @@ public class MainController {
         saveOnDisk();
     }
     
+    /**
+     * Updates visually the panel with lists of tasks.
+     */
     public void updateTaskListsPanel() {
         lastLayoutYLists = 0;
         
@@ -399,7 +465,7 @@ public class MainController {
     }
 
     /**
-     * Modifies the GUI.
+     * Modifies the GUI with minor fixes and styles.
      */
     private void graphicMods() {
         taskListsScrollPane.setFitToWidth(true);
@@ -417,22 +483,32 @@ public class MainController {
         titleTaskList.setEffect(shadow);
     }
 
+    /**
+     * Sets the current stage.
+     * @param stage Stage to set.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Adds a blur effect on stage.
+     */
     private void blurIn() {
-        GaussianBlur blur = new GaussianBlur(10);
+        GaussianBlur blur = new GaussianBlur(BLUR_INTENSITY);
         stage.getScene().getRoot().setEffect(blur);
     }
 
+    /**
+     * Removes the blur effect on stage.
+     */
     private void blurOut() {
         GaussianBlur blur = new GaussianBlur(0);
         stage.getScene().getRoot().setEffect(blur);
     }
 
     /**
-     * Saves on a file all tasks.
+     * Saves on a file the whole model.
      */
     private void saveOnDisk() {
         Output output;
@@ -446,6 +522,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Loads the model from disk.
+     */
     private void loadFromDisk() {
         Input input;
         try {
@@ -465,6 +544,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Sets a taskListButton as selected both visually and in the controller.
+     * @param selectedTaskListButton The button of a list to select.
+     */
     private void setSelectedListButton(TaskListButton selectedTaskListButton) {
         TaskListButton ancientSelection = this.currentTaskListButton;
         if (ancientSelection != selectedTaskListButton) {

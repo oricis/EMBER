@@ -27,7 +27,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
+ * View used to add task lists.
+ * 
  * @author Soheib El-Harrache
  */
 public class NewTaskListWindow extends Stage {
@@ -35,6 +36,10 @@ public class NewTaskListWindow extends Stage {
     private final NewTaskListController taskListController;
     private boolean wantsToAdd;
 
+    /**
+     * Builds the window and add events.
+     * @throws IOException 
+     */
     public NewTaskListWindow() throws IOException {
         super();
         FXMLLoader fxmlLoader = new FXMLLoader(
@@ -67,6 +72,10 @@ public class NewTaskListWindow extends Stage {
         });
     }
 
+    /**
+     * Returns a task list from the controller if the condition is met.
+     * @return Task list from the controller.
+     */
     public TaskList getTaskList() {
         if (this.wantsToAdd) {
             return taskListController.getTaskList();

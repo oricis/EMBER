@@ -25,7 +25,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *
+ * Main application.
+ * 
  * @author Soheib El-Harrache
  */
 public class Ember extends Application {

@@ -17,7 +17,7 @@ package com.soheibo.Model;
 
 /**
  * The model is considered the heart of the project.
- * Contains lists, users 
+ * Contains the task manager and configs.
  * 
  * @author Soheib El-Harrache
  */

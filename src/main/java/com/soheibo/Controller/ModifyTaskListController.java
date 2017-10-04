@@ -20,15 +20,22 @@ import com.soheibo.Model.TaskList;
 import javafx.fxml.FXML;
 
 /**
- *
+ * Controller for the view used to modify task lists.
+ * 
  * @author Soheib El-Harrache
  */
 public class ModifyTaskListController {
     @FXML
     JFXTextField nameFieldTaskList;
     
+    //Task list to modify
     private TaskList taskList;
     
+    /**
+     * Creates and returns a modified task list if valid.
+     * Returns null if not valid.
+     * @return Null if not valid or the modified task list if valid.
+     */
     public TaskList getModifiedTaskList() {
         //Verifications
         if (!nameFieldTaskList.getText().equals("")) {
@@ -39,6 +46,10 @@ public class ModifyTaskListController {
         }
     }
 
+    /**
+     * Fills the fields using informations from a task list passed by parameter.
+     * @param oldTaskList List used to retrieve informations and fill fields.
+     */
     public void fillOldTaskListInfos(TaskList oldTaskList) {
         this.taskList = oldTaskList;
         nameFieldTaskList.setText(oldTaskList.getName());

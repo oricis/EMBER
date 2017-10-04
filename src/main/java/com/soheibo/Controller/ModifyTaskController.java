@@ -22,7 +22,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
 /**
- *
+ * Controller for the view used to modify tasks.
+ * 
  * @author Soheib El-Harrache
  */
 public class ModifyTaskController {
@@ -32,8 +33,13 @@ public class ModifyTaskController {
     @FXML
     AnchorPane taskDetailsAnchorPane;
 
+    //Task to modify
     Task task;
     
+    /**
+     * Creates and returns a modified task if valid. Returns null if not valid.
+     * @return Null if not valid or the modified task if valid.
+     */
     public Task getTask() {
         //Verifications
         if (!nameFieldNewTask.getText().equals("")) {
@@ -45,13 +51,21 @@ public class ModifyTaskController {
         }
     }
 
+    /**
+     * Fills the fields using informations from a task passed by parameter.
+     * @param oldTask Task used to retrieve informations and fill fields.
+     */
     public void fillOldTaskInfos(Task oldTask) {
         task = oldTask;
         taskDetailsAnchorPane.setVisible(true);
         nameFieldNewTask.setText(oldTask.getTitle());
     }
 
+    /**
+     * Applies subtle graphical modifications.
+     */
     public void applyGUIMods() {
-        //taskDetailsAnchorPane.managedProperty().bind(taskDetailsAnchorPane.visibleProperty());
+        //taskDetailsAnchorPane.managedProperty().bind(taskDetailsAnchorPane.
+        //visibleProperty());
     }
 }

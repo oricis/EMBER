@@ -20,13 +20,18 @@ import com.soheibo.Model.TaskList;
 import javafx.fxml.FXML;
 
 /**
- *
+ * Controller for the view used to add a new task list.
+ * 
  * @author Soheib El-Harrache
  */
 public class NewTaskListController {
     @FXML
     JFXTextField nameFieldNewTaskList;
     
+    /**
+     * Creates and returns a new task list if valid. Returns null if not valid.
+     * @return Null if not valid or the new task list if valid.
+     */
     public TaskList getTaskList() {
         if (!nameFieldNewTaskList.getText().equals("")) {
             return new TaskList(nameFieldNewTaskList.getText());

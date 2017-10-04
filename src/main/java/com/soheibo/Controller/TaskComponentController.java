@@ -16,11 +16,8 @@
 package com.soheibo.Controller;
 
 import com.soheibo.Model.Task;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +25,8 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 /**
- *
+ * Graphical component of a task.
+ * 
  * @author Soheib El-Harrache
  */
 public class TaskComponentController implements Initializable {
@@ -43,20 +41,36 @@ public class TaskComponentController implements Initializable {
     @FXML
     private Button deleteButton;
 
+    /**
+     * Sets the task on the component.
+     * @param task Task to be used.
+     */
     public void setTask(Task task) {
         this.task = task;
         taskText.setText(task.getTitle());
     }
 
+    /**
+     * Initialiazes the controller.
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //No use yet.
     }
 
+    /**
+     * Sets a reference to the main controller.
+     * @param mainController The main controller.
+     */
     void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
+    /**
+     * Add events on the component.
+     */
     void addEvents() {
         modifyButton.setOnAction((ActionEvent event) -> {
             mainController.modifySelectedTask(task);

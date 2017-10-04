@@ -26,7 +26,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
 /**
- *
+ * Controller for the view used to add a new task.
+ * 
  * @author Soheib El-Harrache
  */
 public class NewTaskController {
@@ -43,6 +44,10 @@ public class NewTaskController {
     @FXML
     JFXDatePicker datePicker;
     
+    /**
+     * Creates and returns a new task if valid. Returns null if not valid.
+     * @return Null if not valid or the new task if valid.
+     */
     public Task getTask() {
         //Verifications
         if (!nameFieldNewTask.getText().equals("")) {
@@ -61,15 +66,18 @@ public class NewTaskController {
         }
     }
     
+    /**
+     * Shows the panel containing details for a task.
+     */
     public void showDetails() {
         taskDetailsAnchorPane.setVisible(true);
     }
 
-    public void fillOldTaskInfos(Task oldTask) {
-        nameFieldNewTask.setText(oldTask.getTitle());
-    }
-
+    /**
+     * Applies subtle graphical modifications.
+     */
     public void applyGUIMods() {
-        //taskDetailsAnchorPane.managedProperty().bind(taskDetailsAnchorPane.visibleProperty());
+        //taskDetailsAnchorPane.managedProperty().bind(taskDetailsAnchorPane.
+        //visibleProperty());
     }
 }

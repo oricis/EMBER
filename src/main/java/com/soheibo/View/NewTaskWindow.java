@@ -17,7 +17,6 @@ package com.soheibo.View;
 
 import com.soheibo.Controller.NewTaskController;
 import com.soheibo.Model.Task;
-import com.sun.prism.paint.Color;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,18 +27,21 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
+ * View used to add tasks.
+ * 
  * @author Soheib El-Harrache
  */
 public class NewTaskWindow extends Stage {
 
     private NewTaskController taskController;
-    private boolean provideDetails;
     private boolean wantsToAdd;
 
-    public NewTaskWindow(boolean provideDetails) throws IOException {
+    /**
+     * Builds the window and add events.
+     * @throws IOException 
+     */
+    public NewTaskWindow() throws IOException {
         super();
-        this.provideDetails = provideDetails;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/FXML/newTask.fxml"));
@@ -77,6 +79,10 @@ public class NewTaskWindow extends Stage {
         });
     }
 
+    /**
+     * Returns a task from the controller if the condition is met.
+     * @return Task from the controller.
+     */
     public Task getTask() {
         if (this.wantsToAdd) {
             return taskController.getTask();

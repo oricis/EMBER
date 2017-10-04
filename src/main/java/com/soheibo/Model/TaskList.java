@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Contains tasks specified for the lists.
+ * Used to create lists of tasks and modify them.
+ * 
  * @author Soheib El-Harrache
  */
 public class TaskList {
@@ -29,6 +30,9 @@ public class TaskList {
     private ArrayList<Task> tskList;
     private boolean necessary;
 
+    /**
+     * Basic constructor for a task list.
+     */
     public TaskList() {
         this.ID = nextId.incrementAndGet();
         this.name = "New task list";
@@ -37,8 +41,8 @@ public class TaskList {
     }
     
     /**
-     * Creates a default list of tasks.
-     * @param name Name of the list
+     * Creates a default list of tasks with a name.
+     * @param name Name of the list.
      */
     public TaskList(String name) {
         this.ID = nextId.incrementAndGet();
@@ -48,10 +52,9 @@ public class TaskList {
     }
     
     /**
-     * Creates a list of tasks. The list
-     * can be necessary (cannot be removed).
-     * @param name Name of the list
-     * @param necessary True means necessary
+     * Creates a list of tasks. The list can be necessary (cannot be removed).
+     * @param name Name of the list.
+     * @param necessary True means necessary.
      */
     public TaskList(String name, boolean necessary) {
         this.ID = nextId.incrementAndGet();
@@ -61,16 +64,16 @@ public class TaskList {
     }
     
     /**
-     * Adds a task to the taskList.
-     * @param t 
+     * Adds a task to the task list.
+     * @param t  Task list to add.
      */
     public void addTask(Task t) {
         tskList.add(t);
     }
     
     /**
-     * Removes a task from the taskList.
-     * @param t 
+     * Removes a task from the task list.
+     * @param t Task list to remove.
      */
     public void removeTask(Task t) {
         tskList.remove(t);

@@ -21,13 +21,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 
 /**
- *
+ * A button containing a task list.
+ * 
  * @author Soheib El-Harrache
  */
 public class TaskListButton extends JFXButton {
     
     private TaskList taskList;
     
+    /**
+     * Builds the button with the task list as parameter.
+     * @param taskList Task list to be used for the look of the button.
+     */
     public TaskListButton(TaskList taskList) {
         this.taskList = taskList;
         
@@ -39,6 +44,10 @@ public class TaskListButton extends JFXButton {
         this.getStyleClass().add("taskListBtn");
     }
     
+    /**
+     * Changes the style of the button depending on the state of the button.
+     * @param clicked Selection state of the button.
+     */
     public void isClicked(boolean clicked) {
         if (clicked) {
             this.getStyleClass().removeAll("taskListBtn");
