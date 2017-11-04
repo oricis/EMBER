@@ -108,8 +108,4 @@ public class TaskList {
     public boolean isNecessary() {
         return this.necessary;
     }
-
-    public void modifyTask(Task oldTask, Task modifiedTask) {
-        oldTask.clone(modifiedTask);
-    }
 }

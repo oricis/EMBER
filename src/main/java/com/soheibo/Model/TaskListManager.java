@@ -16,11 +16,12 @@
 package com.soheibo.Model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 /**
  * Used to manage task lists and tasks. Has default task lists.
- * 
+ *
  * @author Soheib El-Harrache
  */
 public class TaskListManager {
@@ -30,12 +31,11 @@ public class TaskListManager {
     private final TaskList collectTaskList;
     private final ArrayList<TaskList> basicViews;
 
-    private final int UPCOMING_DAYS_DISTANCE = 5;
+    public static final int UPCOMING_DAYS_DISTANCE = 5;
 
     /**
-     * Basic constructor.
-     * Default TaskListManager has normally a "Collect", a "Today", an
-     * "Upcoming", a "Anytime" and a "Future" list.
+     * Basic constructor. Default TaskListManager has normally a "Collect", a
+     * "Today", an "Upcoming", a "Anytime" and a "Future" list.
      */
     public TaskListManager() {
         this.mainTaskLists = new ArrayList();
@@ -73,7 +73,7 @@ public class TaskListManager {
 
     /**
      * Adds a task to a list in the TaskListManager.
-     * 
+     *
      * @param task Task to add.
      * @param taskList Task list used to add a task.
      */
@@ -81,12 +81,12 @@ public class TaskListManager {
         //TODO: add triggers or mechanism to future plannings
         if (task != null && taskList != null) {
             taskList.addTask(task);
-        }       
+        }
     }
 
     /**
      * Removes a task list.
-     * 
+     *
      * @param taskList Task list to remove.
      */
     public void removeTaskList(TaskList taskList) {
@@ -95,7 +95,7 @@ public class TaskListManager {
 
     /**
      * Removes a task from a task list.
-     * 
+     *
      * @param task Task to remove.
      * @param taskList Task list from which the task is removed.
      */
@@ -107,19 +107,26 @@ public class TaskListManager {
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for today.
-     * 
+     *
      * @return List of tasks that are meant for today.
      */
     public ArrayList<Task> getViewTodayTasks() {
         LocalDateTime nowDate = LocalDateTime.now();
-        int todayDate = nowDate.getDayOfYear();
         ArrayList<Task> todayTasks = new ArrayList<>();
+        long distanceDays, distanceSeconds;
 
         for (TaskList tskList : mainTaskLists) {
             ArrayList<Task> tasks = tskList.getTskList();
             for (Task t : tasks) {
                 if (t.getEndDate() != null) {
-                    if (t.getEndDate().getDayOfYear() == todayDate) {
+
+                    distanceDays = ChronoUnit.DAYS.between(
+                            nowDate.toLocalDate().atStartOfDay(),
+                            t.getEndDate());
+                    distanceSeconds = ChronoUnit.SECONDS.between(
+                            nowDate.toLocalDate().atStartOfDay(),
+                            t.getEndDate());
+                    if (distanceDays == 0 && distanceSeconds >= 0) {
                         todayTasks.add(t);
                     }
                 }
@@ -131,19 +138,22 @@ public class TaskListManager {
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for tomorrow.
-     * 
+     *
      * @return List of tasks that are meant for tomorrow.
      */
     public ArrayList<Task> getViewTomorrowTasks() {
         LocalDateTime nowDate = LocalDateTime.now();
-        int tomorrowDate = nowDate.getDayOfYear() + 1;
         ArrayList<Task> tomorrowTasks = new ArrayList<>();
+        long distanceDays;
 
         for (TaskList tskList : mainTaskLists) {
             ArrayList<Task> tasks = tskList.getTskList();
             for (Task t : tasks) {
                 if (t.getEndDate() != null) {
-                    if (t.getEndDate().getDayOfYear() == tomorrowDate) {
+                    distanceDays = ChronoUnit.DAYS.between(
+                            nowDate.toLocalDate().atStartOfDay(),
+                            t.getEndDate());
+                    if (distanceDays == 1) {
                         tomorrowTasks.add(t);
                     }
                 }
@@ -155,30 +165,38 @@ public class TaskListManager {
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for the upcoming days.
-     * 
+     *
      * @return List of tasks that are meant for the upcoming days.
      */
     public ArrayList<Task> getViewUpcomingTasks() {
         return getTasksFromTodayToCertainDay(UPCOMING_DAYS_DISTANCE);
     }
-    
+
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for the period between today plus the distance passed by parameter.
-     * 
+     *
      * @param distanceInDays Length of the period.
      * @return List of tasks that are meant for the specified period.
      */
     private ArrayList<Task> getTasksFromTodayToCertainDay(int distanceInDays) {
         LocalDateTime nowDate = LocalDateTime.now();
-        int maxUpcomingDate = nowDate.getDayOfYear() + distanceInDays;
         ArrayList<Task> upcomingTasks = new ArrayList<>();
+        long distanceDays, distanceSeconds;
 
         for (TaskList tskList : mainTaskLists) {
             ArrayList<Task> tasks = tskList.getTskList();
             for (Task t : tasks) {
                 if (t.getEndDate() != null) {
-                    if (t.getEndDate().getDayOfYear() <= maxUpcomingDate) {
+                    distanceDays
+                            = ChronoUnit.DAYS.between(
+                                    nowDate.toLocalDate().atStartOfDay(),
+                                    t.getEndDate());
+                    distanceSeconds = ChronoUnit.SECONDS.between(
+                                    nowDate.toLocalDate().atStartOfDay(),
+                                    t.getEndDate());
+                    if (distanceDays <= distanceInDays
+                            && distanceSeconds >= 0) {
                         upcomingTasks.add(t);
                     }
                 }
@@ -190,19 +208,23 @@ public class TaskListManager {
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for the future.
-     * 
+     *
      * @return List of tasks that are meant for the future.
      */
     public ArrayList<Task> getViewFutureTasks() {
         LocalDateTime nowDate = LocalDateTime.now();
-        int minFutureDate = nowDate.getDayOfYear() + UPCOMING_DAYS_DISTANCE;
         ArrayList<Task> futureTasks = new ArrayList<>();
+        long distanceDays;
 
         for (TaskList tskList : mainTaskLists) {
             ArrayList<Task> tasks = tskList.getTskList();
             for (Task t : tasks) {
                 if (t.getEndDate() != null) {
-                    if (t.getEndDate().getDayOfYear() > minFutureDate) {
+                    distanceDays
+                            = ChronoUnit.DAYS.between(
+                                    nowDate.toLocalDate().atStartOfDay(),
+                                    t.getEndDate());
+                    if (distanceDays > UPCOMING_DAYS_DISTANCE) {
                         futureTasks.add(t);
                     }
                 }
@@ -214,7 +236,7 @@ public class TaskListManager {
     /**
      * Returns a list of tasks collected from custom task lists that are meant
      * for any time.
-     * 
+     *
      * @return List of tasks that are meant for any time.
      */
     public ArrayList<Task> getViewAnytimeTasks() {
@@ -229,6 +251,17 @@ public class TaskListManager {
             }
         }
         return anytimeTasks;
+    }
+
+    /**
+     * Clones the values of a modified task and replace the old task values with
+     * it.
+     *
+     * @param oldTask Old task to replace with new values.
+     * @param modifiedTask Modified task from which the values are cloned.
+     */
+    public static void modifyTask(Task oldTask, Task modifiedTask) {
+        oldTask.clone(modifiedTask);
     }
 
     //----------------GETTERS AND SETTERS--------------------------------------

@@ -383,7 +383,7 @@ public class MainController {
                     //Rejected
                 } else {
                     //Accepted
-                    currentTaskList.modifyTask(oldTask, modifiedTask);
+                    TaskListManager.modifyTask(oldTask, modifiedTask);
                     updateContentPanel();
                     saveOnDisk();
                 }

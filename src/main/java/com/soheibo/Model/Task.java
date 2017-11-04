@@ -124,7 +124,7 @@ public class Task {
         this.description = task.getDescription();
         this.done = task.isDone();
         this.creationDate = (LocalDateTime) task.getCreationDate();
-        this.creationDate = (LocalDateTime) task.getLastModifiedDate();
+        this.lastModifiedDate = (LocalDateTime) task.getLastModifiedDate();
         this.limited = task.isLimited();
         if (task.getEndDate() != null) {
             this.endDate = (LocalDateTime) task.getEndDate();

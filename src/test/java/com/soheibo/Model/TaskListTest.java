@@ -15,6 +15,7 @@
  */
 package com.soheibo.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,7 +25,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Tests for the TaskList class.
+ * 
  * @author Soheib El-Harrache
  */
 public class TaskListTest {
@@ -56,6 +58,13 @@ public class TaskListTest {
     public void tearDown() {
     }
 
+    @Test
+    public void testTaskListDefaultValues() {
+        TaskList normalList = new TaskList();
+        
+        assertEquals(normalList.getTskList().size(), 0);
+        assertFalse(normalList.isNecessary());
+    }
     /**
      * Adding the task to a list.
      */
@@ -193,7 +202,83 @@ public class TaskListTest {
                 && idOfDeletedTaskList != taskList3.getID());
     }
 
-    //GETTERS AND SETTERS
+    @Test
+    public void testCloningTaskReplacesWithSameValues() {
+        Task original = new Task();
+
+        Task newTask = new Task();
+        newTask.setTitle("A new List");
+        newTask.setDescription("A beautiful description");
+        newTask.setDone(true);
+        newTask.setLimited(true);
+        newTask.setLastModifiedDate(LocalDateTime.now());
+        newTask.setEndDate(LocalDateTime.now());
+        newTask.setRepetitive(true);
+        newTask.setNumberTasks(3);
+
+        //Adding required tasks in the task
+        Task subRequiredTask1 = new Task("TestR1");
+        Task subRequiredTask2 = new Task("TestR2");
+        ArrayList<Task> requiredSubTasks = new ArrayList<>();
+        requiredSubTasks.add(subRequiredTask1);
+        requiredSubTasks.add(subRequiredTask2);
+        newTask.setRequiredTasks(requiredSubTasks);
+
+        //Adding tasks in the task
+        Task subTask1 = new Task("Test1");
+        Task subTask2 = new Task("Test2");
+        ArrayList<Task> subTasks = new ArrayList<>();
+        subTasks.add(subTask1);
+        subTasks.add(subTask2);
+        newTask.setTaskList(subTasks);
+
+        TaskListManager.modifyTask(original, newTask);
+
+        //Comparing values in both tasks
+        testValuesEqualsBetween2Tasks(original, newTask);
+
+        //Comparing values in required sub-tasks
+        for (int i = 0; i < requiredSubTasks.size(); i++) {
+            testValuesEqualsBetween2Tasks(
+                    original.getRequiredTasks().get(i),
+                    newTask.getRequiredTasks().get(i));
+        }
+
+        //Comparing values in sub-tasks
+        for (int i = 0; i < subTasks.size(); i++) {
+            testValuesEqualsBetween2Tasks(
+                    original.getTaskList().get(i),
+                    newTask.getTaskList().get(i));
+        }
+    }
+
+    /**
+     * Asserts the values of 2 tasks are equal (except sub-lists).
+     *
+     * @param original A task used to assert.
+     * @param newTask Another task used to assert.
+     */
+    public void testValuesEqualsBetween2Tasks(Task original, Task newTask) {
+        assertEquals(original.getID(), newTask.getID());
+        assertTrue(original.getTitle().equals(newTask.getTitle()));
+        assertTrue(original.getDescription().equals(newTask.getDescription()));
+        assertEquals(original.isLimited(), newTask.isLimited());
+        assertEquals(original.isDone(), newTask.isDone());
+        assertEquals(original.isLimited(), newTask.isLimited());
+        assertTrue(original.getCreationDate().
+                equals(newTask.getCreationDate()));
+        if (newTask.getLastModifiedDate() != null) {
+            assertTrue(original.getLastModifiedDate().
+                    equals(newTask.getLastModifiedDate()));
+        } else {
+            assertEquals(original.getLastModifiedDate(),
+                    newTask.getLastModifiedDate());
+        }
+        assertEquals(original.isRepetitive(), newTask.isRepetitive());
+        assertEquals(original.getNumberTasks(), newTask.getNumberTasks());
+    }
+
+    //GETTERS AND SETTERS-------------------------------------------------------
     //By default shouldn't be necessary
     @Test
     public void testIsNecessaryDefault() {
@@ -214,7 +299,7 @@ public class TaskListTest {
         TaskList aTaskList = new TaskList("Needs some change");
         ArrayList<Task> refreshingChangeList = new ArrayList<>();
         aTaskList.setTskList(refreshingChangeList);
-        
+
         assertEquals(refreshingChangeList, aTaskList.getTskList());
     }
 

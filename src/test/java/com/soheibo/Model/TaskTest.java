@@ -26,7 +26,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Tests for the Task class.
+ * 
  * @author Soheib El-Harrache
  */
 public class TaskTest {
@@ -113,7 +114,28 @@ public class TaskTest {
         long errorMargin = 2000;
         assertTrue(diffInMillies < errorMargin);
     }
+    
+    @Test
+    public void testGetLastModifiedDate() {
+        LocalDateTime aNewDate = LocalDateTime.now();
+        Task task = new Task("A modified task");
+        task.setLastModifiedDate(aNewDate);
+        assertEquals(aNewDate, task.getLastModifiedDate());
+    }
 
+    @Test
+    public void testIsDoneDefault() {
+        Task task = new Task("Normal");
+        assertEquals(false, task.isDone());
+    }
+    
+    @Test
+    public void testSetDone() {
+        Task task = new Task("Should be done!");
+        task.setDone(true);
+        assertTrue(task.isDone());
+    }
+    
     @Test
     public void testIsLimitedDefault() {
         Task task = new Task("Normal");
@@ -134,6 +156,13 @@ public class TaskTest {
         task.setEndDate(endDate);
 
         assertEquals(endDate, task.getEndDate());
+    }
+    
+    @Test
+    public void testGetEndDateDefault() {
+        Task task = new Task("Without date");
+
+        assertEquals(null, task.getEndDate());
     }
 
     @Test

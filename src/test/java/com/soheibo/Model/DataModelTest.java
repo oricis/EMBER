@@ -23,7 +23,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Tests for the DataModel class.
+ * 
  * @author Soheib El-Harrache
  */
 public class DataModelTest {
